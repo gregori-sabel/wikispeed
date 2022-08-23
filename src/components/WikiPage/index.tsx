@@ -10,15 +10,21 @@ interface WikiProps{
 export function WikiPage({ html, title, handleClickedLink }: WikiProps){
   const [ dom, setDom ] = useState<Document>();
   
+  function removeEach(dom: Document, classes: string[]){
+    classes.forEach((classe) => {
+      dom.querySelectorAll(`.${classe}`).forEach(box => {
+        box.remove();
+      });
+    })
+  }
   
   function cleanDom(){
     if(dom){
-      const cleanedDom = dom;
-      // cleanedDom.querySelector('.infobox')?.remove(); // não retira
-      cleanedDom.querySelector('.wikitable')?.remove();
-      cleanedDom.querySelector('.mw-collapsible')?.remove();
-      cleanedDom.querySelector('.reflist')?.remove();
-      document.body.appendChild(cleanedDom.documentElement);
+      const creaningDom = dom;
+      const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 'navbox']
+      removeEach(creaningDom, classesToRemove)
+
+      document.querySelector('.container').appendChild(creaningDom.documentElement);
       alterLinks()
     }
   }
@@ -50,8 +56,9 @@ export function WikiPage({ html, title, handleClickedLink }: WikiProps){
   },[dom])
 
   return(
-    <Container>
+    <Container >
       <Title>{title}</Title>
+      <div className="container"/>
     </Container>
   )
 }
