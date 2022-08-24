@@ -22,10 +22,23 @@ export const theme = extendTheme({
   },
   styles: {
     global: {
-      body: {
+      'body': {
         bg: 'white',
-        color: 'grar.900',
-      }
+        color: 'gray.900',
+        height: '100%'
+      },
+      'html': {
+        height: '100%'
+      },
+      'body > div:first-child': {
+        height: '100%'
+      },
+      'div#__next': {
+        height: '100%'
+      },
+      'div#__next > div': {
+        height: '100%'
+      },
     }
   },
 })
