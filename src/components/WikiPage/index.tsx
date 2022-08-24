@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Container, Title } from "./styles";
 
 interface WikiProps{
-  title: string;
-  html: string;
+  wikiInfo: {
+    title: string;
+    html: string;
+  }
   handleClickedLink(event: any, link: string): void;
 }
 
-export function WikiPage({ html, title, handleClickedLink }: WikiProps){
+export function WikiPage({ wikiInfo, handleClickedLink }: WikiProps){
   const [ dom, setDom ] = useState<Document>();
   
-  function removeEach(dom: Document, classes: string[]){
+  function removeEachClass(dom: Document, classes: string[]){
     classes.forEach((classe) => {
       dom.querySelectorAll(`.${classe}`).forEach(box => {
         box.remove();
@@ -22,43 +24,43 @@ export function WikiPage({ html, title, handleClickedLink }: WikiProps){
     if(dom){
       const creaningDom = dom
       const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 'navbox']
-      removeEach(creaningDom, classesToRemove)
+      removeEachClass(creaningDom, classesToRemove)
+      console.log('grg',dom)
 
-      document.querySelector('.container').appendChild(creaningDom.documentElement);
+      // document.querySelector('.container').appendChild(creaningDom.documentElement);
       alterLinks()
     }
   }
 
   function alterLinks(){
-    const ases = document.getElementsByTagName('a');
-    var arr = Array.from(ases);
-    arr.map(ar => {
-      ar.onclick = (event) => {
-        handleClickedLink(event, ar.href)
+    const tagsA = document.getElementsByTagName('a');
+    console.log('tagsA',tagsA)
+    var arrayTagsA = Array.from(tagsA);
+    arrayTagsA.map(tagA => {
+      tagA.onclick = (event) => {
+        handleClickedLink(event, tagA.href)
         return false // retorna false para não abrir o link
       }
     })
   }
   
   useEffect(() => {
-    const newDom = new DOMParser().parseFromString(html, 'text/html')
-    console.log(newDom)
+    const newDom = new DOMParser().parseFromString(wikiInfo.html, 'text/html')
     setDom(newDom)
   
-    console.log('chamado 1')
-
   },[])
 
-  useEffect(() => {
-    
+  useEffect(() => {    
     cleanDom()
-    console.log('chamado 2')
+    alterLinks()
   },[dom])
 
   return(
-    <div style={{width:'1000px'}}>
-      <Title>{title}</Title>
-      <div className="container" />  
-    </div>
+    <Container>
+      <Title>{wikiInfo.title}</Title>
+      { dom &&
+        <div dangerouslySetInnerHTML={{__html: dom.documentElement?.outerHTML}}/>
+      }      
+    </Container>
   )
 }

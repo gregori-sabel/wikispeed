@@ -15,7 +15,8 @@ export default function Home() {
   const [ history, setHistory ] = useState([])
 
   // ao clicar num link, chama a nova pagina da wiki
-  function handleClickedLink(event, link: string) {
+  function handleClickedLink(event: React.FormEvent<HTMLInputElement>, link: string) {
+    event.preventDefault();
     const pageTitle = link
       .replace('http://en.wikipedia.org/wiki/', '')
       .replace('_', ' ')
@@ -26,10 +27,11 @@ export default function Home() {
       'https://en.wikipedia.org/api/rest_v1/page/html/')
 
     fetch(htmlPage)
-      .then(res => res.text())
-      .then(html => {
-        setWikiInfo({ title: pageTitle, html})
-      })
+    .then(res => res.text())
+    .then(html => {
+      setWikiInfo({ title: pageTitle, html})
+      // console.log('handle chamado', html)
+    })
 
     setHistory([...history, pageTitle])
   }
@@ -48,8 +50,8 @@ export default function Home() {
     <div>
       <History history={history}/>
       <div style={{width:'100%', display:'flex', justifyContent: 'center'}}>
-        { wikiInfo.title  &&
-          <WikiPage html={wikiInfo.html} title={wikiInfo.title} handleClickedLink={handleClickedLink}/>
+        { wikiInfo.title  && 
+          <WikiPage wikiInfo={wikiInfo} handleClickedLink={handleClickedLink}/>
           // <p style={{width: '50px', backgroundColor: 'black'}}>sfdf</p>
         }
       </div>
