@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Link, Title } from "./styles";
+import { Box, Flex, Text } from "@chakra-ui/react"
 
 interface HistoryProps{
   history: string[]
@@ -7,14 +7,25 @@ interface HistoryProps{
 
 export function History({ history }: HistoryProps){
   return(
-    <Container>
+    <Flex m={5} mb={0}>
       {history?.map(link => (
-        <Link key={link}>
-          <Title>
+        <Box
+          key={link}
+          border='1px'
+          borderRadius={5}
+          paddingX='15px'
+          ml={2}
+          boxShadow='md'
+          _hover={{            
+            boxShadow:'inner',
+            cursor:'pointer'
+          }}
+        >
+          <Text fontWeight='medium'>
             {link}
-          </Title>
-        </Link>
+          </Text>
+        </Box>
       ))}
-    </Container>
+    </Flex>
   )
 }

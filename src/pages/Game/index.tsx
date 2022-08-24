@@ -3,15 +3,10 @@ import { useEffect, useState } from "react"
 
 import { WikiPage } from "../../components/WikiPage/index";
 import { History } from "../../components/History/index";
-import { Container, Wrapper } from "./styles";
 
-interface WikiInfo{
-  title: string;
-  html: string;
-}
 
-export default function Home() {
-  const [ history, setHistory ] = useState([''])
+export default function Game() {
+  const [ history, setHistory ] = useState(['Potato'])
 
   function handleSetHistory(newLink:string){
     console.log(newLink)

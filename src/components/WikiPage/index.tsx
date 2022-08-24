@@ -1,5 +1,5 @@
+import { Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { Container, Title } from "./styles";
 
 interface WikiProps{
   handleSetHistory(link: string): void;
@@ -77,14 +77,15 @@ export function WikiPage({ handleSetHistory }: WikiProps){
     fetch(`https://en.wikipedia.org/api/rest_v1/page/html/potato`)
       .then(res => res.text())
       .then(text => {
-        setWikiInfo({title: 'potato', html: text})      
+        setWikiInfo({title: 'Potato', html: text})      
       })
 
   },[])
   
   return(
     <div style={{width:'1000px'}}>
-      <Title>{wikiInfo.title}</Title>
+      <Text fontSize='3xl' fontWeight='bold'>{wikiInfo.title}</Text>
+      <hr />
       { dom &&
         <div dangerouslySetInnerHTML={{__html: dom.documentElement?.outerHTML}}/>
       }      
