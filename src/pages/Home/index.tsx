@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react"
 
 import { WikiPage } from "../../components/WikiPage/index";
@@ -44,13 +45,14 @@ export default function Home() {
 
 
   return (
-    <Container>
-      <Wrapper>
-        <History history={history}/>
+    <div>
+      <History history={history}/>
+      <div style={{width:'100%', display:'flex', justifyContent: 'center'}}>
         { wikiInfo.title  &&
           <WikiPage html={wikiInfo.html} title={wikiInfo.title} handleClickedLink={handleClickedLink}/>
+          // <p style={{width: '50px', backgroundColor: 'black'}}>sfdf</p>
         }
-      </Wrapper>
-    </Container>
+      </div>
+    </div>
   )
 }

@@ -20,7 +20,7 @@ export function WikiPage({ html, title, handleClickedLink }: WikiProps){
   
   function cleanDom(){
     if(dom){
-      const creaningDom = dom;
+      const creaningDom = dom
       const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 'navbox']
       removeEach(creaningDom, classesToRemove)
 
@@ -56,9 +56,9 @@ export function WikiPage({ html, title, handleClickedLink }: WikiProps){
   },[dom])
 
   return(
-    <Container >
+    <div style={{width:'1000px'}}>
       <Title>{title}</Title>
-      <div className="container"/>
-    </Container>
+      <div className="container" />  
+    </div>
   )
 }

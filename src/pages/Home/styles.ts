@@ -1,10 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: flex;
-  justify-content: center;
+  width: 100%;
+  margin-left: 20px; 
 `
 
 export const Wrapper = styled.div`
   width: 100px;
+  background-color: black;
 `
