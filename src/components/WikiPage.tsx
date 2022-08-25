@@ -32,6 +32,12 @@ export function WikiPage({ handleSetHistory }: WikiProps){
       setWikiInfo({ title: pageTitle, html})
       // console.log('handle chamado', html)
     })
+
+    window.scrollTo({
+        top: 0,
+        // behavior: 'smooth',
+    });
+
     handleSetHistory(pageTitle)
   }
 
