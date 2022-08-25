@@ -9,7 +9,7 @@ interface HistoryProps{
 
 export function History({ history, firstWiki, lastWiki }: HistoryProps){
   return(
-    <Flex width='100%' justify='space-between'>
+    <Flex width='100%' justify='space-between' maxH='50px'>
       <Flex>
         <Box
           border='1px'
@@ -29,7 +29,21 @@ export function History({ history, firstWiki, lastWiki }: HistoryProps){
         </Box>
       </Flex> 
       { history.length !== 0 &&
-        <Flex w='100%'>
+        <Flex 
+          w='100%' 
+          overflow='auto'
+          sx={{
+            '&::-webkit-scrollbar': {
+              height: '10px',
+              borderRadius: '2px',
+              backgroundColor: `rgba(7, 7, 7, 0.205)`,
+            },
+            '&::-webkit-scrollbar-thumb': {
+              borderRadius: '3px',
+              backgroundColor: `rgba(19, 19, 19, 0.747)`,
+            },
+          }}
+        >
           {history?.map(link => (
             <Box
               key={link}
@@ -43,7 +57,7 @@ export function History({ history, firstWiki, lastWiki }: HistoryProps){
                 cursor:'pointer'
               }}
             >
-              <Text fontWeight='medium'>
+              <Text fontWeight='medium' whiteSpace='nowrap'>
                 {link}
               </Text>
             </Box>
