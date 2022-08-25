@@ -13,6 +13,8 @@ export default function Base() {
       align='center'
       backgroundColor='brand.500'
     >
+      <Flex>
+      
       <Text 
         fontSize='3xl'
         fontWeight='bold'
@@ -21,6 +23,7 @@ export default function Base() {
           cursor:'pointer'
         }}
       >Play</Text>
+      </Flex>
     </Flex>
     </>
   )

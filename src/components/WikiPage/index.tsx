@@ -1,4 +1,4 @@
-import { Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 interface WikiProps{
@@ -46,15 +46,18 @@ export function WikiPage({ handleSetHistory }: WikiProps){
   
 
   function alterLinks(){
-    const tagsA = document.getElementsByTagName('a');
-    console.log('tagsA',tagsA)
-    var arrayTagsA = Array.from(tagsA);
-    arrayTagsA.map(tagA => {
-      tagA.onclick = (event) => {
-        handleClickedLink(event, tagA.href)
-        return false // retorna false para não abrir o link
-      }
-    })
+    const wikipediaElement = document.getElementsByClassName('wikipedia')[0]
+    if(wikipediaElement){
+      const tagsA = wikipediaElement.getElementsByTagName('a');
+      console.log('tagsA',tagsA)
+      var arrayTagsA = Array.from(tagsA);
+      arrayTagsA.map(tagA => {
+        tagA.onclick = (event) => {
+          handleClickedLink(event, tagA.href)
+          return false // retorna false para não abrir o link
+        }
+      })
+    }
   }
   
   useEffect(() => {   
@@ -64,7 +67,8 @@ export function WikiPage({ handleSetHistory }: WikiProps){
 
   useEffect(() => {   
     const newDom = new DOMParser().parseFromString(wikiInfo.html, 'text/html')
-    const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 'navbox']
+    const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 
+                             'navbox', 'mw-ref', 'metadata']
     removeEachClass(newDom, classesToRemove)
 
     setDom(newDom)    
@@ -83,12 +87,12 @@ export function WikiPage({ handleSetHistory }: WikiProps){
   },[])
   
   return(
-    <div style={{width:'1000px'}}>
+    <Box>
       <Text fontSize='3xl' fontWeight='bold'>{wikiInfo.title}</Text>
       <hr />
       { dom &&
-        <div dangerouslySetInnerHTML={{__html: dom.documentElement?.outerHTML}}/>
-      }      
-    </div>
+        <div className='wikipedia' dangerouslySetInnerHTML={{__html: dom.documentElement?.outerHTML}}/>   
+      }
+    </Box>
   )
 }

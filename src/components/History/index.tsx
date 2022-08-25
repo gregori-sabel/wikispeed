@@ -7,7 +7,7 @@ interface HistoryProps{
 
 export function History({ history }: HistoryProps){
   return(
-    <Flex m={5} mb={0}>
+    <Flex>
       {history?.map(link => (
         <Box
           key={link}
