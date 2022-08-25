@@ -3,63 +3,53 @@ import { useEffect, useState } from "react"
 
 import { WikiPage } from "../../components/WikiPage";
 import { History } from "../../components/History";
-import { Text, Flex, Modal, useDisclosure, ModalOverlay, ModalContent, ModalBody, ModalHeader, ModalCloseButton, ModalFooter, Button } from "@chakra-ui/react";
+import { Flex, useDisclosure } from "@chakra-ui/react";
 import { Header } from "../../components/Header";
+import { HelpModal } from "../../components/HelpModal";
+import { SuccessModal } from "../../components/SuccessModal";
 
 export default function Game() {
   const [ history, setHistory ] = useState<string[]>([])
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: helpModalIsOpen, onOpen: helpModalOnOpen, onClose: helpModalOnClose } = useDisclosure()
+  const { isOpen: successModalIsOpen, onOpen: successModalOnOpen, onClose: successModalOnClose } = useDisclosure()
+  const firstWiki = 'Potato'
+  const lastWiki = 'Fungi'
 
   function handleSetHistory(newLink:string){
     setHistory([...history, newLink])
   }
 
   useEffect(() => {
-    onOpen()
+    helpModalOnOpen()
   },[])
 
   return (
     <div>
-      <Header onOpen={onOpen}/>
+      <Header onOpen={helpModalOnOpen}/>
 
       <Flex w='100%' flexDirection='column' justify='center' align='center' paddingX='10'>
         <Flex w='100%' maxW='1000px' mt='5'>
-          <History history={history} firstWiki={'Potato'} lastWiki={'Neptune'}/>
+          <History history={history} firstWiki={firstWiki} lastWiki={lastWiki}/>
         </Flex>
         <Flex w='100%' maxW='1000px'>
-          <WikiPage handleSetHistory={handleSetHistory} />
+          <WikiPage handleSetHistory={handleSetHistory} openSuccessModal={successModalOnOpen} successWiki={lastWiki}/>
         </Flex>
       </Flex>
 
-      
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Como Jogar</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text lineHeight='1'>
-              Sabe como o wikipedia é cheio de 
-              <Text color='blue.700' display='inline-block'>&nbsp;links&nbsp;</Text> 
-              no meio do texto?
-            </Text>
-            <Text >
-              Então, o objetivo aqui é começar em uma página da wikipedia aleatoria e chegar em uma outra página apenas clicando nos links.
-            </Text>
-            <br />
-            <Text fontWeight='medium'>
-              Um novo WIKISPEED vai ser liberado cada dia!
-            </Text>
-          </ModalBody>
+      <HelpModal 
+        isOpen={helpModalIsOpen} 
+        onOpen={helpModalOnOpen}  
+        onClose={helpModalOnClose}  
+      />
+      <SuccessModal 
+        isOpen={successModalIsOpen} 
+        onClose={successModalOnClose}
+        history={history}  
+        firstWiki={firstWiki}
+      />
 
-          <ModalFooter>
-            <Button onClick={onClose}>
-              Começar
-            </Button>
-            {/* <Button variant='ghost'>Outra ação</Button> */}
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      
+
     </div>
   )
 }

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 
 interface WikiProps{
   handleSetHistory(link: string): void;
+  openSuccessModal(): void;
+  successWiki: string;
 }
 
 interface WikiInfo{
@@ -10,7 +12,7 @@ interface WikiInfo{
   html: string;
 }
 
-export function WikiPage({ handleSetHistory }: WikiProps){
+export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: WikiProps){
   const [ wikiInfo, setWikiInfo ] = useState<WikiInfo>({} as WikiInfo);
   const [ dom, setDom ] = useState<Document>();
   
@@ -21,6 +23,10 @@ export function WikiPage({ handleSetHistory }: WikiProps){
       .replace('http://en.wikipedia.org/wiki/', '')
       .replace('_', ' ')
       .replace('#', ' - ')
+
+    if(pageTitle === successWiki){
+      openSuccessModal()
+    }
 
     const htmlPage = link.replace(
       'http://en.wikipedia.org/wiki/', 
