@@ -70,9 +70,9 @@ export function SuccessModal({ isOpen, onClose, history, firstWiki }: SuccessMod
         </ModalBody>
 
         <ModalFooter>
-          <Button onClick={onClose}>
+          {/* <Button onClick={onClose}>
             Começar
-          </Button>
+          </Button> */}
           {/* <Button variant='ghost'>Outra ação</Button> */}
         </ModalFooter>
       </ModalContent>
