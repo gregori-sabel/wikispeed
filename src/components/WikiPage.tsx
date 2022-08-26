@@ -1,5 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { api } from "../services/api";
 
 interface WikiProps{
   handleSetHistory(link: string): void;
@@ -32,12 +33,10 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
       'http://en.wikipedia.org/wiki/', 
       'https://en.wikipedia.org/api/rest_v1/page/html/')
 
-    fetch(htmlPage)
-    .then(res => res.text())
-    .then(html => {
-      setWikiInfo({ title: pageTitle, html})
-      // console.log('handle chamado', html)
-    })
+    api.get(htmlPage)
+      .then(res => {
+        setWikiInfo({ title: pageTitle, html: res.data})
+      })
 
     window.scrollTo({
         top: 0,
@@ -61,7 +60,6 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
     const wikipediaElement = document.getElementsByClassName('wikipedia')[0]
     if(wikipediaElement){
       const tagsA = wikipediaElement.getElementsByTagName('a');
-      console.log('tagsA',tagsA)
       var arrayTagsA = Array.from(tagsA);
       arrayTagsA.map(tagA => {
         tagA.onclick = (event) => {
@@ -83,17 +81,15 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
                              'navbox', 'mw-ref', 'metadata']
     removeEachClass(newDom, classesToRemove)
 
-    setDom(newDom)    
-    alterLinks()
+    setDom(newDom) 
 
   },[wikiInfo])
   
   // chama a pagina da wiki
   useEffect(() => { 
-    fetch(`https://en.wikipedia.org/api/rest_v1/page/html/potato`)
-      .then(res => res.text())
-      .then(text => {
-        setWikiInfo({title: 'Potato', html: text})      
+    api.get(`https://en.wikipedia.org/api/rest_v1/page/html/potato`)
+      .then(res => {
+        setWikiInfo({title: 'Potato', html: res.data})      
       })
 
   },[])
