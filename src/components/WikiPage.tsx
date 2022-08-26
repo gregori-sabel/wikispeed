@@ -20,22 +20,20 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
 
   // ao clicar num link, chama a nova pagina da wiki
   function handleClickedLink(event, link: string) {
-    const pageTitle = link
-      .replace('http://en.wikipedia.org/wiki/', '')
+    const pageName = link
+    .replace('http://en.wikipedia.org/wiki/', '')
+
+    const pageCleanTitle = pageName
       .replace('_', ' ')
       .replace('#', ' - ')
 
-    if(pageTitle === successWiki){
+    if(pageCleanTitle === successWiki){
       openSuccessModal()
     }
 
-    const htmlPage = link.replace(
-      'http://en.wikipedia.org/wiki/', 
-      'https://en.wikipedia.org/api/rest_v1/page/html/')
-
-    api.get(htmlPage)
+    api.get(pageName)
       .then(res => {
-        setWikiInfo({ title: pageTitle, html: res.data})
+        setWikiInfo({ title: pageCleanTitle, html: res.data})
       })
 
     window.scrollTo({
@@ -43,7 +41,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
         // behavior: 'smooth',
     });
 
-    handleSetHistory(pageTitle)
+    handleSetHistory(pageCleanTitle)
   }
 
   
@@ -87,7 +85,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
   
   // chama a pagina da wiki
   useEffect(() => { 
-    api.get(`https://en.wikipedia.org/api/rest_v1/page/html/potato`)
+    api.get('potato')
       .then(res => {
         setWikiInfo({title: 'Potato', html: res.data})      
       })

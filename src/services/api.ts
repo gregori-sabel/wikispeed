@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create ({
-  // headers: {"Access-Control-Allow-Origin": "*"}
+  baseURL: 'https://en.wikipedia.org/api/rest_v1/page/html/'
 })
 
 api.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
