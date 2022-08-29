@@ -20,6 +20,8 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
 
   // ao clicar num link, chama a nova pagina da wiki
   function handleClickedLink(event, link: string) {
+    console.log('handleClicked called')
+
     const pageName = link
     .replace('http://en.wikipedia.org/wiki/', '')
 
@@ -31,8 +33,10 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
       openSuccessModal()
     }
 
+    console.log('api.get to be called')
     api.get(pageName)
       .then(res => {
+        console.log('html by api', res.data)
         setWikiInfo({ title: pageCleanTitle, html: res.data})
       })
 
@@ -41,6 +45,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
         // behavior: 'smooth',
     });
 
+    console.log(pageCleanTitle)
     handleSetHistory(pageCleanTitle)
   }
 
