@@ -42,21 +42,6 @@ export default function Home(props: InitialWikisSimple) {
     }
   }
 
-  console.log('1', props.initialWikis.startWiki)
-  console.log('2', props.initialWikis.finalWiki)
-
-  async function getInitialWikis(){
-    const startWiki = await api.get('page/random/title')
-      .then(res => res.data)
-    const finalWiki = await api.get('page/random/title')
-      .then(res => {        
-        console.log('final wik ', res)
-        return res.data        
-      })
-
-    // setInitialWikis({startWiki, finalWiki})
-  }
-
 
   function handleSetHistory(historyBlock: WikiPage){
     setHistory([...history, historyBlock])
@@ -64,7 +49,6 @@ export default function Home(props: InitialWikisSimple) {
 
   useEffect(() => {
     helpModalOnOpen()
-    // getInitialWikis()
   },[])
 
   return (

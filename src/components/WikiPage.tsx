@@ -25,9 +25,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
   function handleClickedLink(event, link: string) {
 
     const pageName = link
-    .replace('http://pt.wikipedia.org/wiki/', '')
-    .replace('https://pt.wikipedia.org/wiki/', '')
-
+    .replace('http://localhost:3000/', '')
     const pageCleanTitle = pageName
       .replace('_', ' ')
       .replace('#', ' - ')
@@ -60,6 +58,10 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
   // altera todos os links da wiki
   function alterLinks(){
     const wikipediaElement = document.getElementsByClassName('wikipedia')[0]
+
+    const baseURLElement = wikipediaElement?.getElementsByTagName('base')[0]
+    baseURLElement?.remove()
+
     if(wikipediaElement){
       const tagsA = wikipediaElement.getElementsByTagName('a');
       var arrayTagsA = Array.from(tagsA);
@@ -75,6 +77,8 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
   // atualiza dom que vai preencher a tela
   useEffect(() => {   
     const newDom = new DOMParser().parseFromString(wikiInfo.html, 'text/html')
+    // const baseURLNode = newDom.getElementsByTagName('base')[0]
+    // newDom.documentElement.removeChild(baseURLNode)
     const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 
                              'navbox', 'mw-ref', 'metadata']
     removeEachClass(newDom, classesToRemove)

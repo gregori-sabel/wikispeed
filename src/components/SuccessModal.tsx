@@ -29,7 +29,6 @@ export function SuccessModal({ isOpen, onClose, history, startWiki }: SuccessMod
     setButtonColor('gray.100')
 
     const historyNames = history.map(historyBLock => historyBLock.title)
-    console.log(historyNames)
 
     const postMessage = startWiki.title + ' - ' + historyNames.reduce( (acc, valor) => {
       return acc + ' - ' + valor
