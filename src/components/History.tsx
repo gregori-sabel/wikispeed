@@ -1,9 +1,14 @@
 import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react"
 
+export interface HistoryBlock {
+  title: string;
+  link: string;
+}
+
 interface HistoryProps{
   firstWiki: string;
-  history: string[];
+  history: HistoryBlock[];
   lastWiki: string;
 }
 
@@ -44,9 +49,9 @@ export function History({ history, firstWiki, lastWiki }: HistoryProps){
             },
           }}
         >
-          {history?.map(link => (
+          {history?.map(Block => (
             <Box
-              key={link}
+              key={Block.title}
               border='1px'
               borderRadius={5}
               paddingX='15px'
@@ -58,7 +63,7 @@ export function History({ history, firstWiki, lastWiki }: HistoryProps){
               }}
             >
               <Text fontWeight='medium' whiteSpace='nowrap'>
-                {link}
+                {Block.link}
               </Text>
             </Box>
           ))}

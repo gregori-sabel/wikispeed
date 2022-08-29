@@ -10,7 +10,8 @@ export function Header({ onOpen }: HeaderProps){
     <Flex
       position='sticky'
       top='0'
-      bg='gray.100'
+      bg='white'
+      boxShadow='md'
       py='3'
       px='5'
       align='center'

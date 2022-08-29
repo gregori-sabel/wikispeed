@@ -11,11 +11,12 @@ import {
   Button, 
   Flex
 } from "@chakra-ui/react";
+import { HistoryBlock } from "../components/History";
 
 interface SuccessModalProps {
   isOpen: boolean;
   onClose(): void;
-  history: string[];
+  history: HistoryBlock[];
   firstWiki: string;
 }
 
@@ -27,8 +28,11 @@ export function SuccessModal({ isOpen, onClose, history, firstWiki }: SuccessMod
     setShareMessage('Copied!')
     setButtonColor('gray.100')
 
-    const postMessage = firstWiki + ' - ' + history.reduce( (acc, valor) => {
-      return acc + ' - ' +valor
+    const historyNames = history.map(historyBLock => historyBLock.title)
+    console.log(historyNames)
+
+    const postMessage = firstWiki + ' - ' + historyNames.reduce( (acc, valor) => {
+      return acc + ' - ' + valor
     } )
 
     navigator.clipboard.writeText(postMessage)

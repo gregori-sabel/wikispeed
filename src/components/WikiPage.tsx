@@ -2,8 +2,13 @@ import { Box, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { api } from "../services/api";
 
+interface HistoryBlock {
+  title: string;
+  link: string;
+}
+
 interface WikiProps{
-  handleSetHistory(link: string): void;
+  handleSetHistory(historyBlock: HistoryBlock): void;
   openSuccessModal(): void;
   successWiki: string;
 }
@@ -20,27 +25,21 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
 
   // ao clicar num link, chama a nova pagina da wiki
   function handleClickedLink(event, link: string) {
-    console.log('handleClicked called')
 
-    console.log('link', link)
     const pageName = link
     .replace('http://en.wikipedia.org/wiki/', '')
     .replace('https://en.wikipedia.org/wiki/', '')
-    console.log('pageName', pageName)
 
     const pageCleanTitle = pageName
       .replace('_', ' ')
       .replace('#', ' - ')
-    console.log('pageCleanTitle', pageCleanTitle)
 
     if(pageCleanTitle === successWiki){
       openSuccessModal()
     }
 
-    console.log('api.get to be called')
     api.get(pageName)
       .then(res => {
-        console.log('html by api', res.data)
         setWikiInfo({ title: pageCleanTitle, html: res.data})
       })
 
@@ -49,8 +48,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
         // behavior: 'smooth',
     });
 
-    console.log(pageCleanTitle)
-    handleSetHistory(pageCleanTitle)
+    handleSetHistory({link: pageName, title: pageCleanTitle})
   }
 
   

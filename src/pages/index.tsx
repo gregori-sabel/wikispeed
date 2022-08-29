@@ -2,21 +2,22 @@ import React from "react";
 import { useEffect, useState } from "react"
 
 import { WikiPage } from "../components/WikiPage";
-import { History } from "../components/History";
+import { History, HistoryBlock } from "../components/History";
 import { Flex, useDisclosure } from "@chakra-ui/react";
 import { Header } from "../components/Header";
 import { HelpModal } from "../components/HelpModal";
 import { SuccessModal } from "../components/SuccessModal";
 
+
 export default function Home() {
-  const [ history, setHistory ] = useState<string[]>([])
+  const [ history, setHistory ] = useState<HistoryBlock[]>([])
   const { isOpen: helpModalIsOpen, onOpen: helpModalOnOpen, onClose: helpModalOnClose } = useDisclosure()
   const { isOpen: successModalIsOpen, onOpen: successModalOnOpen, onClose: successModalOnClose } = useDisclosure()
   const firstWiki = 'Potato'
   const lastWiki = 'Fungi'
 
-  function handleSetHistory(newLink:string){
-    setHistory([...history, newLink])
+  function handleSetHistory(historyBlock: HistoryBlock){
+    setHistory([...history, historyBlock])
   }
 
   useEffect(() => {
