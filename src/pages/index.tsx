@@ -13,8 +13,8 @@ export default function Home() {
   const [ history, setHistory ] = useState<HistoryBlock[]>([])
   const { isOpen: helpModalIsOpen, onOpen: helpModalOnOpen, onClose: helpModalOnClose } = useDisclosure()
   const { isOpen: successModalIsOpen, onOpen: successModalOnOpen, onClose: successModalOnClose } = useDisclosure()
-  const firstWiki = 'Potato'
-  const lastWiki = 'Fungi'
+  const firstWiki = 'Batata'
+  const lastWiki = 'Fungo'
 
   function handleSetHistory(historyBlock: HistoryBlock){
     setHistory([...history, historyBlock])

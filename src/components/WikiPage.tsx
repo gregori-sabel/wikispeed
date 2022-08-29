@@ -27,8 +27,8 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
   function handleClickedLink(event, link: string) {
 
     const pageName = link
-    .replace('http://en.wikipedia.org/wiki/', '')
-    .replace('https://en.wikipedia.org/wiki/', '')
+    .replace('http://pt.wikipedia.org/wiki/', '')
+    .replace('https://pt.wikipedia.org/wiki/', '')
 
     const pageCleanTitle = pageName
       .replace('_', ' ')
@@ -44,8 +44,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
       })
 
     window.scrollTo({
-        top: 0,
-        // behavior: 'smooth',
+        top: 0
     });
 
     handleSetHistory({link: pageName, title: pageCleanTitle})
@@ -60,7 +59,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
     })
   }
   
-
+  // altera todos os links da wiki
   function alterLinks(){
     const wikipediaElement = document.getElementsByClassName('wikipedia')[0]
     if(wikipediaElement){
@@ -75,11 +74,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
     }
   }
   
-  useEffect(() => {   
-    alterLinks()
-
-  },[dom])
-
+  // atualiza dom que vai preencher a tela
   useEffect(() => {   
     const newDom = new DOMParser().parseFromString(wikiInfo.html, 'text/html')
     const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 
@@ -89,12 +84,17 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
     setDom(newDom) 
 
   },[wikiInfo])
+
+
+  useEffect(() => {   
+    alterLinks()
+  },[dom])
   
   // chama a pagina da wiki
   useEffect(() => { 
-    api.get('potato')
+    api.get('Batata')
       .then(res => {
-        setWikiInfo({title: 'Potato', html: res.data})      
+        setWikiInfo({title: 'Batata', html: res.data})      
       })
 
   },[])
