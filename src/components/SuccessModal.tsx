@@ -11,16 +11,16 @@ import {
   Button, 
   Flex
 } from "@chakra-ui/react";
-import { HistoryBlock } from "../components/History";
+import { WikiPage } from "../pages";
 
 interface SuccessModalProps {
   isOpen: boolean;
   onClose(): void;
-  history: HistoryBlock[];
-  firstWiki: string;
+  history: WikiPage[];
+  startWiki: WikiPage;
 }
 
-export function SuccessModal({ isOpen, onClose, history, firstWiki }: SuccessModalProps) {
+export function SuccessModal({ isOpen, onClose, history, startWiki }: SuccessModalProps) {
   const [ shareMessage, setShareMessage ] = useState('Share');
   const [ buttonColor, setButtonColor ] = useState('green.400');
 
@@ -31,7 +31,7 @@ export function SuccessModal({ isOpen, onClose, history, firstWiki }: SuccessMod
     const historyNames = history.map(historyBLock => historyBLock.title)
     console.log(historyNames)
 
-    const postMessage = firstWiki + ' - ' + historyNames.reduce( (acc, valor) => {
+    const postMessage = startWiki.title + ' - ' + historyNames.reduce( (acc, valor) => {
       return acc + ' - ' + valor
     } )
 

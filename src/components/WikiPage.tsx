@@ -1,16 +1,14 @@
 import { Box, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { WikiPage } from "../pages";
 import { api } from "../services/api";
 
-interface HistoryBlock {
-  title: string;
-  link: string;
-}
 
 interface WikiProps{
-  handleSetHistory(historyBlock: HistoryBlock): void;
+  startWiki: WikiPage;
+  handleSetHistory(historyBlock: WikiPage): void;
   openSuccessModal(): void;
-  successWiki: string;
+  successWiki: WikiPage;
 }
 
 interface WikiInfo{
@@ -18,7 +16,7 @@ interface WikiInfo{
   html: string;
 }
 
-export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: WikiProps){
+export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, startWiki }: WikiProps){
   const [ wikiInfo, setWikiInfo ] = useState<WikiInfo>({} as WikiInfo);
   const [ dom, setDom ] = useState<Document>();
   
@@ -34,11 +32,11 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
       .replace('_', ' ')
       .replace('#', ' - ')
 
-    if(pageCleanTitle === successWiki){
+    if(pageCleanTitle === successWiki.title){
       openSuccessModal()
     }
 
-    api.get(pageName)
+    api.get('page/html/' + pageName)
       .then(res => {
         setWikiInfo({ title: pageCleanTitle, html: res.data})
       })
@@ -92,9 +90,9 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
   
   // chama a pagina da wiki
   useEffect(() => { 
-    api.get('Batata')
+    api.get('page/html/' + startWiki.title)
       .then(res => {
-        setWikiInfo({title: 'Batata', html: res.data})      
+        setWikiInfo({title: startWiki.title, html: res.data})      
       })
 
   },[])

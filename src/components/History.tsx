@@ -1,18 +1,18 @@
 import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react"
 
-export interface HistoryBlock {
+export interface WikiPage {
   title: string;
   link: string;
 }
 
 interface HistoryProps{
-  firstWiki: string;
-  history: HistoryBlock[];
-  lastWiki: string;
+  startWiki: WikiPage;
+  history: WikiPage[];
+  finalWiki: WikiPage;
 }
 
-export function History({ history, firstWiki, lastWiki }: HistoryProps){
+export function History({ history, startWiki, finalWiki }: HistoryProps){
   return(
     <Flex width='100%' justify='space-between' maxH='50px'>
       <Flex>
@@ -29,7 +29,7 @@ export function History({ history, firstWiki, lastWiki }: HistoryProps){
           }}
         >
           <Text fontWeight='medium'>
-          {firstWiki}
+          {startWiki.title}
           </Text>
         </Box>
       </Flex> 
@@ -79,7 +79,7 @@ export function History({ history, firstWiki, lastWiki }: HistoryProps){
           bg='yellow.300'
         >
           <Text fontWeight='medium'>
-            {lastWiki}
+            {finalWiki.title}
           </Text>
         </Box>
       </Flex>     
