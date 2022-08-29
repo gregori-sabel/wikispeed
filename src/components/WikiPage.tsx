@@ -25,6 +25,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
     console.log('link', link)
     const pageName = link
     .replace('http://en.wikipedia.org/wiki/', '')
+    .replace('https://en.wikipedia.org/wiki/', '')
     console.log('pageName', pageName)
 
     const pageCleanTitle = pageName
