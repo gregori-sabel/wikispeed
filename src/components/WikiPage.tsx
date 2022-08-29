@@ -22,12 +22,15 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki }: Wi
   function handleClickedLink(event, link: string) {
     console.log('handleClicked called')
 
+    console.log('link', link)
     const pageName = link
     .replace('http://en.wikipedia.org/wiki/', '')
+    console.log('pageName', pageName)
 
     const pageCleanTitle = pageName
       .replace('_', ' ')
       .replace('#', ' - ')
+    console.log('pageCleanTitle', pageCleanTitle)
 
     if(pageCleanTitle === successWiki){
       openSuccessModal()
