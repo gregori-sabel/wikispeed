@@ -42,19 +42,19 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
 
 
 
-      if ( isMobile ){
-        api.get('page/mobile-html/' + pageName)
-          .then(res => {
-            // console.log(res.data.lead.sections)
-            setWikiInfo({title: pageCleanTitle, html: res.data})      
-          })
-        
-      } else {
-        api.get('page/html/' + pageName)
+    if ( isMobile ){
+      api.get('page/mobile-html/' + pageName)
         .then(res => {
-          setWikiInfo({ title: pageCleanTitle, html: res.data})
+          // console.log(res.data.lead.sections)
+          setWikiInfo({title: pageCleanTitle, html: res.data})      
         })
-      }
+        
+    } else {
+      api.get('page/html/' + pageName)
+      .then(res => {
+        setWikiInfo({ title: pageCleanTitle, html: res.data})
+      })
+    }
 
     window.scrollTo({
         top: 0
@@ -97,7 +97,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
     // const baseURLNode = newDom.getElementsByTagName('base')[0]
     // newDom.documentElement.removeChild(baseURLNode)
     const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 
-                             'navbox', 'mw-ref', 'metadata']
+                             'navbox', 'mw-ref', 'metadata', 'noprint']
     removeEachClass(newDom, classesToRemove)
 
     setDom(newDom) 
@@ -111,19 +111,21 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
   
   // chama a pagina da wiki
   useEffect(() => { 
-    if ( isMobile ){
+    setIsMobile(window.innerWidth < 770)
+    console.log(innerWidth)
+    if (window.innerWidth < 770) {
       api.get('page/mobile-html/' + startWiki.title)
         .then(res => {
           // console.log(res.data.lead.sections)
           setWikiInfo({title: startWiki.title, html: res.data})      
         })
-      
     } else {
       api.get('page/html/' + startWiki.title)
-        .then(res => {
-          setWikiInfo({title: startWiki.title, html: res.data})      
-        })
+      .then(res => {
+        setWikiInfo({title: startWiki.title, html: res.data})      
+      })
     }
+
 
   },[])
   

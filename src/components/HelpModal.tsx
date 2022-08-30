@@ -19,20 +19,23 @@ export function HelpModal({ isOpen, onClose, onOpen}: HelpModalProps) {
         <ModalHeader>Como Jogar</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Text lineHeight='1'>
+          {/* <Text lineHeight='1'>
             Sabe como a <strong>wikipedia</strong> é cheia de 
             <Text color='blue.700' display='inline-block'>&nbsp;links&nbsp;</Text> 
             no meio do texto?
-          </Text>
+          </Text> */}
           <Text >
-            O objetivo aqui é <strong>começar em uma página da wikipedia</strong> aleatória e <strong>chegar em uma outra página</strong> apenas <strong>clicando nos links</strong>.
-          </Text>
-          <Text >
-            Tente ser o mais eficiente possível
+            O objetivo é&nbsp;
+            <strong>sair de uma página da wikipedia </strong>
+            aleatória e&nbsp;
+            <strong>chegar em uma outra página </strong>
+            apenas&nbsp;
+            <strong>clicando nos </strong>
+            <a>links</a>.
           </Text>
           <br />
-          <Text fontWeight='medium'>
-            Um novo WIKISPEED vai ser liberado cada dia!
+          <Text fontWeight='regular'>
+            Um novo <strong>WikiSpeed </strong> vai ser liberado cada dia!
           </Text>
         </ModalBody>
 
