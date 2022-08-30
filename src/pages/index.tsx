@@ -42,12 +42,12 @@ export default function Home(props: StaticProps) {
 
   return (
     <Box>
-      <title>Wikipeed</title>
+      <title>Wikispeed</title>
 
     { props.startWiki.title &&
       
       <Box>
-        <Header onOpen={helpModalOnOpen}/>
+        <Header onOpen={helpModalOnOpen} objective={props.finalWiki.title}/>
         
         <Flex
           w='100%'
@@ -57,11 +57,11 @@ export default function Home(props: StaticProps) {
           paddingX={['4','5','10']}
         >
           <Flex w='100%' maxW='1000px' mt='5'>
-            <History 
+            {/* <History 
               history={history} 
               startWiki={props.startWiki} 
               finalWiki={props.finalWiki}
-            />
+            /> */}
           </Flex>
           <Flex w='100%' maxW='1000px'>
             <WikiPage 
@@ -96,6 +96,16 @@ export default function Home(props: StaticProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
 
+  function cleanTitle(title: string) {
+    const pageCleanTitle = decodeURI(
+      title
+        .replaceAll('_', ' ')
+        .replaceAll('#', ' - ')
+    )
+    
+    return pageCleanTitle
+  }
+
   const startWiki = await api.get('page/random/title')
     .then(res => {        
       // console.log('initial wiki', res.data.items[0].title)
@@ -107,14 +117,16 @@ export const getStaticProps: GetStaticProps = async () => {
       return res.data.items[0].title
     })
 
+
+    
   return {
     props: {
       startWiki: {
-        title: startWiki,
+        title: cleanTitle(startWiki),
         link: ''
       },
       finalWiki: {      
-        title: finalWiki,
+        title: cleanTitle(finalWiki),
         link: ''
       }
     },
