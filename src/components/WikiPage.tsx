@@ -26,6 +26,8 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
 
     const pageName = link
       .replace('http://localhost:3000/', '')
+      .replace('https://wikispeed.vercel.app/', '')
+      
     const pageCleanTitle = decodeURI(
       pageName
         .replaceAll('_', ' ')
