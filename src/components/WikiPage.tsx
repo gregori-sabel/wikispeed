@@ -25,10 +25,13 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
   function handleClickedLink(event, link: string) {
 
     const pageName = link
-    .replace('http://localhost:3000/', '')
-    const pageCleanTitle = pageName
-      .replace('_', ' ')
-      .replace('#', ' - ')
+      .replace('http://localhost:3000/', '')
+    const pageCleanTitle = decodeURI(
+      pageName
+        .replaceAll('_', ' ')
+        .replaceAll('#', ' - ')
+    )
+    
 
     if(pageCleanTitle === successWiki.title){
       openSuccessModal()

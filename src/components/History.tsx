@@ -63,7 +63,7 @@ export function History({ history, startWiki, finalWiki }: HistoryProps){
               }}
             >
               <Text fontWeight='medium' whiteSpace='nowrap'>
-                {Block.link}
+                {Block.title}
               </Text>
             </Box>
           ))}
