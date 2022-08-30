@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 import { WikiPage } from "../components/WikiPage";
 import { History } from "../components/History";
-import { Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import { Header } from "../components/Header";
 import { HelpModal } from "../components/HelpModal";
 import { SuccessModal } from "../components/SuccessModal";
@@ -15,32 +15,21 @@ export interface WikiPage {
   link: string;
 }
 
-interface InitialWikis {
-  startWiki: WikiPage;
-  finalWiki: WikiPage;
+interface StaticProps {
+  startWiki: {
+    title: string,
+    link: string,
+  },
+  finalWiki: {      
+    title: string,
+    link: string,
+  }
 }
 
-interface InitialWikisSimple {
-  initialWikis: {
-  startWiki: string;
-  finalWiki: string;}
-}
-
-export default function Home(props: InitialWikisSimple) {
+export default function Home(props: StaticProps) {
   const [ history, setHistory ] = useState<WikiPage[]>([])
   const { isOpen: helpModalIsOpen, onOpen: helpModalOnOpen, onClose: helpModalOnClose } = useDisclosure()
   const { isOpen: successModalIsOpen, onOpen: successModalOnOpen, onClose: successModalOnClose } = useDisclosure()
-  // const [ initialWikis, setInitialWikis ] = useState<InitialWikis>({} as InitialWikis)
-  const initialWikis = {    
-    startWiki: {
-      title: props.initialWikis.startWiki,
-      link: ''
-    },
-    finalWiki: {      
-      title: props.initialWikis.finalWiki,
-      link: ''
-    }
-  }
 
 
   function handleSetHistory(historyBlock: WikiPage){
@@ -52,27 +41,29 @@ export default function Home(props: InitialWikisSimple) {
   },[])
 
   return (
-    <div>
-    { initialWikis.startWiki.title &&
+    <Box>
+      <title>Wikispeed</title>
+
+    { props.startWiki.title &&
       
-        <>
+      <Box>
         <Header onOpen={helpModalOnOpen}/>
         
         <Flex w='100%' flexDirection='column' justify='center' align='center' paddingX='10'>
           <Flex w='100%' maxW='1000px' mt='5'>
             <History 
               history={history} 
-              startWiki={initialWikis.startWiki} 
-              finalWiki={initialWikis.finalWiki}
-              />
+              startWiki={props.startWiki} 
+              finalWiki={props.finalWiki}
+            />
           </Flex>
           <Flex w='100%' maxW='1000px'>
             <WikiPage 
-              startWiki={initialWikis.startWiki} 
+              startWiki={props.startWiki} 
               handleSetHistory={handleSetHistory} 
               openSuccessModal={successModalOnOpen} 
-              successWiki={initialWikis.finalWiki}
-              />
+              successWiki={props.finalWiki}
+            />
           </Flex>
         </Flex>
         
@@ -80,18 +71,18 @@ export default function Home(props: InitialWikisSimple) {
           isOpen={helpModalIsOpen} 
           onOpen={helpModalOnOpen}  
           onClose={helpModalOnClose}  
-          />
-          <SuccessModal 
+        />
+        <SuccessModal 
           isOpen={successModalIsOpen} 
           onClose={successModalOnClose}
           history={history}  
-          startWiki={initialWikis.startWiki}
+          startWiki={props.startWiki}
         />      
   
-      </>
+      </Box>
     }
       
-    </div>
+    </Box>
     
   )
 }
@@ -102,24 +93,24 @@ export const getStaticProps: GetStaticProps = async () => {
   const startWiki = await api.get('page/random/title')
     .then(res => {        
       // console.log('initial wiki', res.data.items[0].title)
-      return res.data.items[0].title     
+      return res.data.items[0].title
     })
   const finalWiki = await api.get('page/random/title')
     .then(res => {        
       // console.log('final wiki', res.data.items[0].title)
-      return res.data.items[0].title     
+      return res.data.items[0].title
     })
-
-    
-
-  const initialWikis = {
-    startWiki,
-    finalWiki
-  }
 
   return {
     props: {
-      initialWikis
+      startWiki: {
+        title: startWiki,
+        link: ''
+      },
+      finalWiki: {      
+        title: finalWiki,
+        link: ''
+      }
     },
     revalidate: 60 * 60 * 24, // 24 hours
   }
