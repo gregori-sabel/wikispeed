@@ -42,14 +42,20 @@ export default function Home(props: StaticProps) {
 
   return (
     <Box>
-      <title>Wikispeed</title>
+      <title>Wikipeed</title>
 
     { props.startWiki.title &&
       
       <Box>
         <Header onOpen={helpModalOnOpen}/>
         
-        <Flex w='100%' flexDirection='column' justify='center' align='center' paddingX='10'>
+        <Flex
+          w='100%'
+          flexDirection='column'
+          justify='center'
+          align='center'
+          paddingX={['4','5','10']}
+        >
           <Flex w='100%' maxW='1000px' mt='5'>
             <History 
               history={history} 

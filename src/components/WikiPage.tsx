@@ -19,6 +19,7 @@ interface WikiInfo{
 export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, startWiki }: WikiProps){
   const [ wikiInfo, setWikiInfo ] = useState<WikiInfo>({} as WikiInfo);
   const [ dom, setDom ] = useState<Document>();
+  const [ isMobile, setIsMobile ] = useState(true);
   
 
   // ao clicar num link, chama a nova pagina da wiki
@@ -39,10 +40,21 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
       openSuccessModal()
     }
 
-    api.get('page/html/' + pageName)
-      .then(res => {
-        setWikiInfo({ title: pageCleanTitle, html: res.data})
-      })
+
+
+      if ( isMobile ){
+        api.get('page/mobile-html/' + pageName)
+          .then(res => {
+            // console.log(res.data.lead.sections)
+            setWikiInfo({title: pageCleanTitle, html: res.data})      
+          })
+        
+      } else {
+        api.get('page/html/' + pageName)
+        .then(res => {
+          setWikiInfo({ title: pageCleanTitle, html: res.data})
+        })
+      }
 
     window.scrollTo({
         top: 0
@@ -99,10 +111,19 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
   
   // chama a pagina da wiki
   useEffect(() => { 
-    api.get('page/html/' + startWiki.title)
-      .then(res => {
-        setWikiInfo({title: startWiki.title, html: res.data})      
-      })
+    if ( isMobile ){
+      api.get('page/mobile-html/' + startWiki.title)
+        .then(res => {
+          // console.log(res.data.lead.sections)
+          setWikiInfo({title: startWiki.title, html: res.data})      
+        })
+      
+    } else {
+      api.get('page/html/' + startWiki.title)
+        .then(res => {
+          setWikiInfo({title: startWiki.title, html: res.data})      
+        })
+    }
 
   },[])
   

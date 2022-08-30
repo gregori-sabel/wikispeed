@@ -17,7 +17,6 @@ export function History({ history, startWiki, finalWiki }: HistoryProps){
     <Flex width='100%' justify='space-between' maxH='50px'>
       <Flex>
         <Box
-          border='1px'
           borderRadius={5}
           paddingX='15px'
           ml={2}
@@ -28,7 +27,11 @@ export function History({ history, startWiki, finalWiki }: HistoryProps){
             cursor:'pointer'
           }}
         >
-          <Text fontWeight='medium'>
+          <Text 
+            fontWeight='medium'
+            fontSize={['12','16']}
+            whiteSpace='nowrap'
+          >
           {startWiki.title}
           </Text>
         </Box>
@@ -52,7 +55,6 @@ export function History({ history, startWiki, finalWiki }: HistoryProps){
           {history?.map(Block => (
             <Box
               key={Block.title}
-              border='1px'
               borderRadius={5}
               paddingX='15px'
               ml={2}
@@ -62,7 +64,11 @@ export function History({ history, startWiki, finalWiki }: HistoryProps){
                 cursor:'pointer'
               }}
             >
-              <Text fontWeight='medium' whiteSpace='nowrap'>
+              <Text 
+                fontWeight='medium'
+                fontSize={['12','16']}
+                whiteSpace='nowrap'
+              >
                 {Block.title}
               </Text>
             </Box>
@@ -71,14 +77,17 @@ export function History({ history, startWiki, finalWiki }: HistoryProps){
       }    
       <Flex>
         <Box
-          border='1px'
           borderRadius={5}
           paddingX='15px'
           ml={2}
           boxShadow='md'
           bg='yellow.300'
         >
-          <Text fontWeight='medium'>
+          <Text 
+            fontWeight='medium'
+            fontSize={['12','16']}
+            whiteSpace='nowrap'
+          >
             {finalWiki.title}
           </Text>
         </Box>
