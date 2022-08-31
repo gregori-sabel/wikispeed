@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { WikiPage } from "../pages";
-import { api } from "../services/api";
+import { wikiApi } from "../services/api";
 
 
 interface WikiProps{
@@ -43,14 +43,14 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
 
 
     if ( isMobile ){
-      api.get('page/mobile-html/' + pageName)
+      wikiApi.get('page/mobile-html/' + pageName)
         .then(res => {
           // console.log(res.data.lead.sections)
           setWikiInfo({title: pageCleanTitle, html: res.data})      
         })
         
     } else {
-      api.get('page/html/' + pageName)
+      wikiApi.get('page/html/' + pageName)
       .then(res => {
         setWikiInfo({ title: pageCleanTitle, html: res.data})
       })
@@ -114,13 +114,13 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
     setIsMobile(window.innerWidth < 770)
     console.log(innerWidth)
     if (window.innerWidth < 770) {
-      api.get('page/mobile-html/' + startWiki.title)
+      wikiApi.get('page/mobile-html/' + startWiki.title)
         .then(res => {
           // console.log(res.data.lead.sections)
           setWikiInfo({title: startWiki.title, html: res.data})      
         })
     } else {
-      api.get('page/html/' + startWiki.title)
+      wikiApi.get('page/html/' + startWiki.title)
       .then(res => {
         setWikiInfo({title: startWiki.title, html: res.data})      
       })

@@ -9,10 +9,10 @@ export interface WikiPage {
 interface HistoryProps{
   startWiki: WikiPage;
   history: WikiPage[];
-  finalWiki: WikiPage;
+  endWiki: WikiPage;
 }
 
-export function History({ history, startWiki, finalWiki }: HistoryProps){
+export function History({ history, startWiki, endWiki }: HistoryProps){
   return(
     <Flex width='100%' justify='space-between' maxH='50px'>
       <Flex>
@@ -88,7 +88,7 @@ export function History({ history, startWiki, finalWiki }: HistoryProps){
             fontSize={['12','16']}
             whiteSpace='nowrap'
           >
-            {finalWiki.title}
+            {endWiki.title}
           </Text>
         </Box>
       </Flex>     

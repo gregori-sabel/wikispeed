@@ -8,7 +8,7 @@ import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import { Header } from "../components/Header";
 import { HelpModal } from "../components/HelpModal";
 import { SuccessModal } from "../components/SuccessModal";
-import { api } from "../services/api";
+import { wikiApi, api } from "../services/api";
 
 export interface WikiPage {
   title: string;
@@ -20,7 +20,7 @@ interface StaticProps {
     title: string,
     link: string,
   },
-  finalWiki: {      
+  endWiki: {      
     title: string,
     link: string,
   }
@@ -47,7 +47,7 @@ export default function Home(props: StaticProps) {
     { props.startWiki.title &&
       
       <Box>
-        <Header onOpen={helpModalOnOpen} objective={props.finalWiki.title}/>
+        <Header onOpen={helpModalOnOpen} objective={props.endWiki.title}/>
         
         <Flex
           w='100%'
@@ -60,7 +60,7 @@ export default function Home(props: StaticProps) {
             {/* <History 
               history={history} 
               startWiki={props.startWiki} 
-              finalWiki={props.finalWiki}
+              endWiki={props.endWiki}
             /> */}
           </Flex>
           <Flex w='100%' maxW='1000px'>
@@ -68,7 +68,7 @@ export default function Home(props: StaticProps) {
               startWiki={props.startWiki} 
               handleSetHistory={handleSetHistory} 
               openSuccessModal={successModalOnOpen} 
-              successWiki={props.finalWiki}
+              successWiki={props.endWiki}
             />
           </Flex>
         </Flex>
@@ -106,18 +106,24 @@ export const getStaticProps: GetStaticProps = async () => {
     return pageCleanTitle
   }
 
-  const startWiki = await api.get('page/random/title')
-    .then(res => {        
-      // console.log('initial wiki', res.data.items[0].title)
-      return res.data.items[0].title
-    })
-  const finalWiki = await api.get('page/random/title')
-    .then(res => {        
-      // console.log('final wiki', res.data.items[0].title)
-      return res.data.items[0].title
-    })
+  // const startWiki = await wikiApi.get('page/random/title')
+  //   .then(res => {        
+  //     // console.log('initial wiki', res.data.items[0].title)
+  //     return res.data.items[0].title
+  //   })
+  // const endWiki = await wikiApi.get('page/random/title')
+  //   .then(res => {        
+  //     // console.log('final wiki', res.data.items[0].title)
+  //     return res.data.items[0].title
+  //   })
+  const today = new Date().getDate()
+  console.log(today)
 
-
+  const {startWiki, endWiki} = await api.get('http://localhost:3000/api/games/123')
+    .then(res => {
+      console.log(res.data)
+      return res.data
+    })
     
   return {
     props: {
@@ -125,8 +131,8 @@ export const getStaticProps: GetStaticProps = async () => {
         title: cleanTitle(startWiki),
         link: ''
       },
-      finalWiki: {      
-        title: cleanTitle(finalWiki),
+      endWiki: {      
+        title: cleanTitle(endWiki),
         link: ''
       }
     },

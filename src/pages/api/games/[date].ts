@@ -14,8 +14,12 @@ export default async ( request: NextApiRequest, response: NextApiResponse ) => {
     )
   )
 
+  const initialWikis = {
+    startWiki: dailyGame.data.start_wiki,
+    endWiki: dailyGame.data.end_wiki
+  }
  
 
-  return response.json(dailyGame)
+  return response.json(initialWikis)
 
 }
