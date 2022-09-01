@@ -106,15 +106,16 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 
   const today = new Date().getDate()
-  console.log(today)
+  // console.log(today)
 
   
 
-  const {startWiki, endWiki} = await api.get('/api/games/123')
+  const {startWiki, endWiki} = await api.get('api/games/123')
     .then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       return res.data
     })
+  console.log(startWiki)
     
     
   return {

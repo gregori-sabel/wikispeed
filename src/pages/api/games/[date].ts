@@ -31,10 +31,10 @@ export default async ( request: NextApiRequest, response: NextApiResponse ) => {
     return response.json(initialWikis)
 
   } catch (err) {
-    console.log(err)
+    console.log('erro:',err)
   }
 
-  return true
+  return response.json({erro: 'deu erro msm'})
 
 
 }

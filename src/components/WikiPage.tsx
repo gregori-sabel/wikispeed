@@ -112,7 +112,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
   // chama a pagina da wiki
   useEffect(() => { 
     setIsMobile(window.innerWidth < 770)
-    console.log(innerWidth)
+    
     if (window.innerWidth < 770) {
       wikiApi.get('page/mobile-html/' + startWiki.title)
         .then(res => {
