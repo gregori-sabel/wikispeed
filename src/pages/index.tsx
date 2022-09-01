@@ -106,16 +106,6 @@ export const getStaticProps: GetStaticProps = async () => {
     return pageCleanTitle
   }
 
-  // const startWiki = await wikiApi.get('page/random/title')
-  //   .then(res => {        
-  //     // console.log('initial wiki', res.data.items[0].title)
-  //     return res.data.items[0].title
-  //   })
-  // const endWiki = await wikiApi.get('page/random/title')
-  //   .then(res => {        
-  //     // console.log('final wiki', res.data.items[0].title)
-  //     return res.data.items[0].title
-  //   })
   const today = new Date().getDate()
   console.log(today)
 
