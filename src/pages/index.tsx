@@ -110,11 +110,11 @@ export const getStaticProps: GetStaticProps = async () => {
 
   
 
-  const {startWiki, endWiki} = await api.get('http://localhost:3000/api/games/123')
-    .then(res => {
-      console.log(res.data)
-      return res.data
-    })
+  // const {startWiki, endWiki} = await api.get('http://localhost:3000/api/games/123')
+  //   .then(res => {
+  //     console.log(res.data)
+  //     return res.data
+  //   })
     
     
   return {
