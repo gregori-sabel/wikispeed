@@ -12,21 +12,29 @@ interface DailyGame {
 export default async ( request: NextApiRequest, response: NextApiResponse ) => {
   const { date } = request.query;
 
+  try{
     const dailyGame: DailyGame = await fauna.query(
-    q.Get(
-      q.Match(
-        q.Index('game_by_date'),
-        q.Casefold("31/08/2022")
+      q.Get(
+        q.Match(
+          q.Index('game_by_date'),
+          q.Casefold("31/08/2022")
+        )
       )
     )
-  )
 
-  const initialWikis = {
-    startWiki: dailyGame.data.start_wiki,
-    endWiki: dailyGame.data.end_wiki
+    const initialWikis = {
+      startWiki: dailyGame.data.start_wiki,
+      endWiki: dailyGame.data.end_wiki
+    }
+   
+  
+    return response.json(initialWikis)
+
+  } catch (err) {
+    console.log(err)
   }
- 
 
-  return response.json(initialWikis)
+  return true
+
 
 }
