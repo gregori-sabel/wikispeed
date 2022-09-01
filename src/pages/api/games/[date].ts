@@ -5,7 +5,7 @@ import { query as q} from 'faunadb'
 export default async ( request: NextApiRequest, response: NextApiResponse ) => {
   const { date } = request.query;
 
-    const dailyGame = await fauna.query(
+    const dailyGame: any = await fauna.query(
     q.Get(
       q.Match(
         q.Index('game_by_date'),
