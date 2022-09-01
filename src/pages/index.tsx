@@ -93,7 +93,6 @@ export default function Home(props: StaticProps) {
   )
 }
 
-
 export const getStaticProps: GetStaticProps = async () => {
 
   function cleanTitle(title: string) {
@@ -109,20 +108,25 @@ export const getStaticProps: GetStaticProps = async () => {
   const today = new Date().getDate()
   console.log(today)
 
+  
+
   const {startWiki, endWiki} = await api.get('http://localhost:3000/api/games/123')
     .then(res => {
       console.log(res.data)
       return res.data
     })
     
+    
   return {
     props: {
       startWiki: {
-        title: cleanTitle(startWiki),
+        // title: cleanTitle(startWiki),
+        title: 'batata',
         link: ''
       },
       endWiki: {      
-        title: cleanTitle(endWiki),
+        // title: cleanTitle(endWiki),
+        title: 'porta',
         link: ''
       }
     },
