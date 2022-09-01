@@ -116,18 +116,19 @@ export const getStaticProps: GetStaticProps = async () => {
       return res.data
     })
   console.log(startWiki)
+  console.log(endWiki)  
     
     
   return {
     props: {
       startWiki: {
         // title: cleanTitle(startWiki),
-        title: 'batata',
+        title: startWiki,
         link: ''
       },
       endWiki: {      
         // title: cleanTitle(endWiki),
-        title: 'porta',
+        title: endWiki,
         link: ''
       }
     },
