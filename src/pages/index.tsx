@@ -26,17 +26,47 @@ interface StaticProps {
   }
 }
 
-export default function Home(props: StaticProps) {
+interface InitialWikis{
+  startWiki: {
+    title: string;
+    link: string;
+  };
+  endWiki: {
+    title: string;
+    link: string;
+  };
+}
+
+export default function Home() {
   const [ history, setHistory ] = useState<WikiPage[]>([])
   const { isOpen: helpModalIsOpen, onOpen: helpModalOnOpen, onClose: helpModalOnClose } = useDisclosure()
   const { isOpen: successModalIsOpen, onOpen: successModalOnOpen, onClose: successModalOnClose } = useDisclosure()
-
+  const [ initialWikis, setInitialWikis ] = useState<InitialWikis>( {} as InitialWikis)
 
   function handleSetHistory(historyBlock: WikiPage){
     setHistory([...history, historyBlock])
   }
 
+  async function getDBWords() {
+    const {startWiki, endWiki} = await api.get('api/games/123')
+    .then(res => {
+      // console.log(res.data)
+      return res.data
+    })
+
+    console.log('url', process.env.BASE_URL)
+
+    setInitialWikis({startWiki: 
+      {title: startWiki, link: ''}, 
+      endWiki: 
+      {title: endWiki, link: ''},     
+    })
+    
+  }
+
   useEffect(() => {
+
+    getDBWords()
     helpModalOnOpen()
   },[])
 
@@ -44,10 +74,10 @@ export default function Home(props: StaticProps) {
     <Box>
       <title>Wikispeed</title>
 
-    { props.startWiki.title &&
+    { initialWikis.startWiki?.title &&
       
       <Box>
-        <Header onOpen={helpModalOnOpen} objective={props.endWiki.title}/>
+        <Header onOpen={helpModalOnOpen} objective={initialWikis.endWiki.title}/>
         
         <Flex
           w='100%'
@@ -59,16 +89,16 @@ export default function Home(props: StaticProps) {
           <Flex w='100%' maxW='1000px' mt='5'>
             {/* <History 
               history={history} 
-              startWiki={props.startWiki} 
-              endWiki={props.endWiki}
+              startWiki={initialWikis.startWiki} 
+              endWiki={initialWikis.endWiki}
             /> */}
           </Flex>
           <Flex w='100%' maxW='1000px'>
             <WikiPage 
-              startWiki={props.startWiki} 
+              startWiki={initialWikis.startWiki} 
               handleSetHistory={handleSetHistory} 
               openSuccessModal={successModalOnOpen} 
-              successWiki={props.endWiki}
+              successWiki={initialWikis.endWiki}
             />
           </Flex>
         </Flex>
@@ -82,7 +112,7 @@ export default function Home(props: StaticProps) {
           isOpen={successModalIsOpen} 
           onClose={successModalOnClose}
           history={history}  
-          startWiki={props.startWiki}
+          startWiki={initialWikis.startWiki}
         />      
   
       </Box>
@@ -93,45 +123,42 @@ export default function Home(props: StaticProps) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+// export const getStaticProps: GetStaticProps = async () => {
 
-  function cleanTitle(title: string) {
-    const pageCleanTitle = decodeURI(
-      title
-        .replaceAll('_', ' ')
-        .replaceAll('#', ' - ')
-    )
+//   function cleanTitle(title: string) {
+//     const pageCleanTitle = decodeURI(
+//       title
+//         .replaceAll('_', ' ')
+//         .replaceAll('#', ' - ')
+//     )
     
-    return pageCleanTitle
-  }
+//     return pageCleanTitle
+//   }
 
-  const today = new Date().getDate()
-  // console.log(today)
+//   const today = new Date().getDate()  
 
-  
-
-  const {startWiki, endWiki} = await api.get('api/games/123')
-    .then(res => {
-      // console.log(res.data)
-      return res.data
-    })
-  console.log(startWiki)
-  console.log(endWiki)  
+//   const {startWiki, endWiki} = await api.get('api/games/123')
+//     .then(res => {
+//       // console.log(res.data)
+//       return res.data
+//     })
+//   console.log(startWiki)
+//   console.log(endWiki)  
     
     
-  return {
-    props: {
-      startWiki: {
-        // title: cleanTitle(startWiki),
-        title: startWiki,
-        link: ''
-      },
-      endWiki: {      
-        // title: cleanTitle(endWiki),
-        title: endWiki,
-        link: ''
-      }
-    },
-    revalidate: 60 * 60 * 24, // 24 hours
-  }
-}
+//   return {
+//     props: {
+//       startWiki: {
+//         // title: cleanTitle(startWiki),
+//         title: startWiki,
+//         link: ''
+//       },
+//       endWiki: {      
+//         // title: cleanTitle(endWiki),
+//         title: endWiki,
+//         link: ''
+//       }
+//     },
+//     revalidate: 60 * 60 * 24, // 24 hours
+//   }
+// }
