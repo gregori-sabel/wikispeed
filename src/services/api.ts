@@ -7,12 +7,10 @@ const wikiApi = axios.create ({
 wikiApi.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
 wikiApi.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
-
-// console.log('baseURL', process.env.BASE_URL)
+// console.log('url', process.env.BASE_URL)
 // console.log('fauna', process.env.FAUNADB_KEY)
 const api = axios.create ({
-  baseURL: 'http://localhost:3000/'
-  
+  baseURL: process.env.BASE_URL  
 })
 
 api.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
