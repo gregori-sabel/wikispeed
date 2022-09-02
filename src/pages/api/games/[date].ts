@@ -10,14 +10,21 @@ interface DailyGame {
 }
 
 export default async ( request: NextApiRequest, response: NextApiResponse ) => {
-  const { date } = request.query;
+  // const { date } = request.query;
 
+  const date = Intl.DateTimeFormat('pt-BR',{
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  }).format(new Date());
+  console.log(date)
+  
   try{
     const dailyGame: DailyGame = await fauna.query(
       q.Get(
         q.Match(
           q.Index('game_by_date'),
-          q.Casefold("31/08/2022")
+          q.Casefold(date)
         )
       )
     )

@@ -1,14 +1,12 @@
-import { GetStaticProps } from 'next' 
 import React from "react";
 import { useEffect, useState } from "react"
 
 import { WikiPage } from "../components/WikiPage";
-import { History } from "../components/History";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import { Header } from "../components/Header";
 import { HelpModal } from "../components/HelpModal";
 import { SuccessModal } from "../components/SuccessModal";
-import { wikiApi, api } from "../services/api";
+import { api } from "../services/api";
 
 export interface WikiPage {
   title: string;
@@ -48,13 +46,12 @@ export default function Home() {
   }
 
   async function getDBWords() {
+
+
     const {startWiki, endWiki} = await api.get('api/games/123')
     .then(res => {
-      // console.log(res.data)
       return res.data
     })
-
-    console.log('url', process.env.BASE_URL)
 
     setInitialWikis({startWiki: 
       {title: startWiki, link: ''}, 
@@ -122,43 +119,3 @@ export default function Home() {
     
   )
 }
-
-// export const getStaticProps: GetStaticProps = async () => {
-
-//   function cleanTitle(title: string) {
-//     const pageCleanTitle = decodeURI(
-//       title
-//         .replaceAll('_', ' ')
-//         .replaceAll('#', ' - ')
-//     )
-    
-//     return pageCleanTitle
-//   }
-
-//   const today = new Date().getDate()  
-
-//   const {startWiki, endWiki} = await api.get('api/games/123')
-//     .then(res => {
-//       // console.log(res.data)
-//       return res.data
-//     })
-//   console.log(startWiki)
-//   console.log(endWiki)  
-    
-    
-//   return {
-//     props: {
-//       startWiki: {
-//         // title: cleanTitle(startWiki),
-//         title: startWiki,
-//         link: ''
-//       },
-//       endWiki: {      
-//         // title: cleanTitle(endWiki),
-//         title: endWiki,
-//         link: ''
-//       }
-//     },
-//     revalidate: 60 * 60 * 24, // 24 hours
-//   }
-// }
