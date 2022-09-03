@@ -28,9 +28,9 @@ export function SuccessModal({ isOpen, onClose, history, startWiki }: SuccessMod
     setShareMessage('Copied!')
     setButtonColor('gray.100')
 
-    const historyNames = history.map(historyBLock => historyBLock.title)
+    const historyNames = history.map(historyBLock => historyBLock.cleanTitle)
 
-    const postMessage = startWiki.title + ' - ' + historyNames.reduce( (acc, valor) => {
+    const postMessage = startWiki.cleanTitle + ' - ' + historyNames.reduce( (acc, valor) => {
       return acc + ' - ' + valor
     } )
 

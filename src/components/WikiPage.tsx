@@ -1,5 +1,6 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { BsArrowLeftShort } from "react-icons/bs";
 import { WikiPage } from "../pages";
 import { wikiApi } from "../services/api";
 
@@ -7,24 +8,53 @@ import { wikiApi } from "../services/api";
 interface WikiProps{
   startWiki: WikiPage;
   handleSetHistory(historyBlock: WikiPage): void;
+  history: WikiPage[];
   openSuccessModal(): void;
   successWiki: WikiPage;
 }
 
 interface WikiInfo{
-  title: string;
+  cleanTitle: string;
   html: string;
 }
 
-export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, startWiki }: WikiProps){
+export function WikiPage({ handleSetHistory, openSuccessModal, history, successWiki, startWiki }: WikiProps){
   const [ wikiInfo, setWikiInfo ] = useState<WikiInfo>({} as WikiInfo);
   const [ dom, setDom ] = useState<Document>();
   const [ isMobile, setIsMobile ] = useState(true);
   
+  function loadNewPage(linkName: string, cleanTitle: string) {
+    if ( isMobile ){
+      wikiApi.get('page/mobile-html/' + linkName)
+        .then(res => {
+          setWikiInfo({cleanTitle: cleanTitle, html: res.data})      
+        })
+    } else {
+      wikiApi.get('page/html/' + linkName)
+      .then(res => {
+        setWikiInfo({ cleanTitle: cleanTitle, html: res.data})
+      })
+    }
+
+    window.scrollTo({
+        top: 0
+    });  
+    
+  }
+
+
+  // ao voltar, chama a pagina anterior
+  function handleReturnPage() {
+
+    const lastPage = history[history.length - 2 ]
+
+    loadNewPage(lastPage.linkName, lastPage.cleanTitle)
+
+    
+  }
 
   // ao clicar num link, chama a nova pagina da wiki
   function handleClickedLink(event, link: string) {
-    console.log('organico', link)
     const pageName = link
       .replace('http://localhost:3000/', '')
       .replace('https://wikispeed.vercel.app/', '')
@@ -35,32 +65,14 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
         .replaceAll('#', ' - ')
     )
     
-
-    if(pageCleanTitle === successWiki.title){
+    if(pageCleanTitle === successWiki.cleanTitle){
       openSuccessModal()
     }
 
 
+    loadNewPage(pageName, pageCleanTitle)
 
-    if ( isMobile ){
-      wikiApi.get('page/mobile-html/' + pageName)
-        .then(res => {
-          // console.log(res.data.lead.sections)
-          setWikiInfo({title: pageCleanTitle, html: res.data})      
-        })
-        
-    } else {
-      wikiApi.get('page/html/' + pageName)
-      .then(res => {
-        setWikiInfo({ title: pageCleanTitle, html: res.data})
-      })
-    }
-
-    window.scrollTo({
-        top: 0
-    });
-
-    handleSetHistory({link: pageName, title: pageCleanTitle})
+    handleSetHistory({linkName: pageName, cleanTitle: pageCleanTitle})
   }
 
   
@@ -94,8 +106,6 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
   // atualiza dom que vai preencher a tela
   useEffect(() => {   
     const newDom = new DOMParser().parseFromString(wikiInfo.html, 'text/html')
-    // const baseURLNode = newDom.getElementsByTagName('base')[0]
-    // newDom.documentElement.removeChild(baseURLNode)
     const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 
                              'navbox', 'mw-ref', 'metadata', 'noprint']
     removeEachClass(newDom, classesToRemove)
@@ -114,15 +124,15 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
     setIsMobile(window.innerWidth < 770)
     
     if (window.innerWidth < 770) {
-      wikiApi.get('page/mobile-html/' + startWiki.title)
+      wikiApi.get('page/mobile-html/' + startWiki.cleanTitle)
         .then(res => {
           // console.log(res.data.lead.sections)
-          setWikiInfo({title: startWiki.title, html: res.data})      
+          setWikiInfo({cleanTitle: startWiki.cleanTitle, html: res.data})      
         })
     } else {
-      wikiApi.get('page/html/' + startWiki.title)
+      wikiApi.get('page/html/' + startWiki.cleanTitle)
       .then(res => {
-        setWikiInfo({title: startWiki.title, html: res.data})      
+        setWikiInfo({cleanTitle: startWiki.cleanTitle, html: res.data})      
       })
     }
 
@@ -131,7 +141,14 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
   
   return(
     <Box>
-      <Text fontSize='3xl' fontWeight='bold'>{wikiInfo.title}</Text>
+      
+      { history.length > 1  &&
+        <Button bg='gray.100' onClick={handleReturnPage}>
+          <BsArrowLeftShort  size='24px'/>
+          <Text>voltar pagina</Text>
+        </Button>
+      }
+      <Text fontSize='3xl' fontWeight='bold'>{wikiInfo.cleanTitle}</Text>
       <hr />
       { dom &&
         <div className='wikipedia' dangerouslySetInnerHTML={{__html: dom.documentElement?.outerHTML}}/>   

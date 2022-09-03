@@ -2,37 +2,21 @@ import React from "react";
 import { useEffect, useState } from "react"
 
 import { WikiPage } from "../components/WikiPage";
-import { Box, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, useDisclosure, Text, Button } from "@chakra-ui/react";
 import { Header } from "../components/Header";
 import { HelpModal } from "../components/HelpModal";
 import { SuccessModal } from "../components/SuccessModal";
 import { api } from "../services/api";
+import { BsArrowLeftShort } from 'react-icons/bs'
 
 export interface WikiPage {
-  title: string;
-  link: string;
-}
-
-interface StaticProps {
-  startWiki: {
-    title: string,
-    link: string,
-  },
-  endWiki: {      
-    title: string,
-    link: string,
-  }
+  cleanTitle: string;
+  linkName: string;
 }
 
 interface InitialWikis{
-  startWiki: {
-    title: string;
-    link: string;
-  };
-  endWiki: {
-    title: string;
-    link: string;
-  };
+  startWiki: WikiPage
+  endWiki: WikiPage
 }
 
 export default function Home() {
@@ -41,46 +25,54 @@ export default function Home() {
   const { isOpen: successModalIsOpen, onOpen: successModalOnOpen, onClose: successModalOnClose } = useDisclosure()
   const [ initialWikis, setInitialWikis ] = useState<InitialWikis>( {} as InitialWikis)
 
-  function handleSetHistory(historyBlock: WikiPage){
-    setHistory([...history, historyBlock])
+  function handleSetHistory(newHistoryBlock: WikiPage){
+    setHistory([...history, newHistoryBlock])
+    console.log(history)
+  }
+
+  function getCleanTitle(text: string){
+    return decodeURI(
+      text
+        .replaceAll('_', ' ')
+        .replaceAll('#', ' - ')
+    )
   }
 
   async function getDBWords() {
-
 
     const {startWiki, endWiki} = await api.get('api/games')
     .then(res => {
       return res.data
     })
 
-    setInitialWikis({startWiki: 
-      {title: startWiki, link: ''}, 
-      endWiki: 
-      {title: endWiki, link: ''},     
-    })
+    setHistory([{
+      cleanTitle: getCleanTitle(startWiki), 
+      linkName: startWiki
+    }])    
 
-    // setInitialWikis({startWiki: 
-    //   {title: 'cenoura', link: ''}, 
-    //   endWiki: 
-    //   {title: 'gregos', link: ''},     
-    // })
+    setInitialWikis({
+      startWiki:{
+        cleanTitle: getCleanTitle(startWiki), 
+        linkName: startWiki
+      }, 
+      endWiki: {
+        cleanTitle: getCleanTitle(endWiki), 
+        linkName: startWiki
+      },     
+    })
     
   }
 
   useEffect(() => {
-
     getDBWords()
     helpModalOnOpen()
   },[])
 
   return (
     <Box>
-      <title>Wikispeed</title>
-
-    { initialWikis.startWiki?.title &&
-      
+    { initialWikis.startWiki &&      
       <Box>
-        <Header onOpen={helpModalOnOpen} objective={initialWikis.endWiki.title}/>
+        <Header onOpen={helpModalOnOpen} objective={initialWikis.endWiki.cleanTitle}/>
         
         <Flex
           w='100%'
@@ -100,6 +92,7 @@ export default function Home() {
             <WikiPage 
               startWiki={initialWikis.startWiki} 
               handleSetHistory={handleSetHistory} 
+              history={history} 
               openSuccessModal={successModalOnOpen} 
               successWiki={initialWikis.endWiki}
             />
@@ -119,8 +112,7 @@ export default function Home() {
         />      
   
       </Box>
-    }
-      
+    }      
     </Box>
     
   )
