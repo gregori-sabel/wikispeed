@@ -44,7 +44,7 @@ export function SuccessModal({ isOpen, onClose, history, startWiki }: SuccessMod
         backdropFilter='auto'
         backdropBlur='4px'
       />
-      <ModalContent>
+      <ModalContent bg='white'>
         <ModalHeader>Vitória!!!</ModalHeader>
         <ModalCloseButton />
         <ModalBody>

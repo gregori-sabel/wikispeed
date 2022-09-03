@@ -48,7 +48,7 @@ export default function Home() {
   async function getDBWords() {
 
 
-    const {startWiki, endWiki} = await api.get('api/games/123')
+    const {startWiki, endWiki} = await api.get('api/games')
     .then(res => {
       return res.data
     })
@@ -58,6 +58,12 @@ export default function Home() {
       endWiki: 
       {title: endWiki, link: ''},     
     })
+
+    // setInitialWikis({startWiki: 
+    //   {title: 'cenoura', link: ''}, 
+    //   endWiki: 
+    //   {title: 'gregos', link: ''},     
+    // })
     
   }
 

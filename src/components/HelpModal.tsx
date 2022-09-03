@@ -9,13 +9,13 @@ interface HelpModalProps{
 
 export function HelpModal({ isOpen, onClose, onOpen}: HelpModalProps) {
   return(
-    <Modal isOpen={isOpen} onClose={onClose} size='xl'>
+    <Modal isOpen={isOpen} onClose={onClose} size='xl' >
       <ModalOverlay           
         bg='blackAlpha.600'
         backdropFilter='auto'
         backdropBlur='4px'
       />
-      <ModalContent>
+      <ModalContent bg='white'>
         <ModalHeader>Como Jogar</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -40,7 +40,7 @@ export function HelpModal({ isOpen, onClose, onOpen}: HelpModalProps) {
         </ModalBody>
 
         <ModalFooter>
-          <Button onClick={onClose}>
+          <Button onClick={onClose} bg='blue.300'>
             Começar
           </Button>
           {/* <Button variant='ghost'>Outra ação</Button> */}

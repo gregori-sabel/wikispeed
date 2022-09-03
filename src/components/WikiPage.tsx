@@ -24,7 +24,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, successWiki, star
 
   // ao clicar num link, chama a nova pagina da wiki
   function handleClickedLink(event, link: string) {
-
+    console.log('organico', link)
     const pageName = link
       .replace('http://localhost:3000/', '')
       .replace('https://wikispeed.vercel.app/', '')

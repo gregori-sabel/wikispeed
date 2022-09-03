@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse} from 'next'
-import { fauna } from '../../../services/fauna'
+import { fauna } from '../../services/fauna'
 import { query as q} from 'faunadb'
+import { wikiApi } from '../../services/api';
 
 interface DailyGame {
   data: {
@@ -17,10 +18,9 @@ export default async ( request: NextApiRequest, response: NextApiResponse ) => {
     month: '2-digit',
     year: 'numeric'
   }).format(new Date());
-  console.log(date)
   
   try{
-    const dailyGame: DailyGame = await fauna.query(
+    const { data }: DailyGame = await fauna.query(
       q.Get(
         q.Match(
           q.Index('game_by_date'),
@@ -29,9 +29,19 @@ export default async ( request: NextApiRequest, response: NextApiResponse ) => {
       )
     )
 
+
+    const startTitle = await wikiApi
+      .get('page/title/'+data.start_wiki)
+      .then(res => res.data.items[0].title);
+
+    const endTitle = await wikiApi
+      .get('page/title/'+encodeURI('orgânico'))
+      .then(res => res.data.items[0].title);
+
+
     const initialWikis = {
-      startWiki: dailyGame.data.start_wiki,
-      endWiki: dailyGame.data.end_wiki
+      startWiki: startTitle,
+      endWiki: endTitle
     }
    
   
