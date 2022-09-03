@@ -2,12 +2,11 @@ import React from "react";
 import { useEffect, useState } from "react"
 
 import { WikiPage } from "../components/WikiPage";
-import { Box, Flex, useDisclosure, Text, Button } from "@chakra-ui/react";
+import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import { Header } from "../components/Header";
 import { HelpModal } from "../components/HelpModal";
 import { SuccessModal } from "../components/SuccessModal";
 import { api } from "../services/api";
-import { BsArrowLeftShort } from 'react-icons/bs'
 
 export interface WikiPage {
   cleanTitle: string;
@@ -45,6 +44,7 @@ export default function Home() {
       return res.data
     })
 
+
     setHistory([{
       cleanTitle: getCleanTitle(startWiki), 
       linkName: startWiki
@@ -81,13 +81,6 @@ export default function Home() {
           align='center'
           paddingX={['4','5','10']}
         >
-          <Flex w='100%' maxW='1000px' mt='5'>
-            {/* <History 
-              history={history} 
-              startWiki={initialWikis.startWiki} 
-              endWiki={initialWikis.endWiki}
-            /> */}
-          </Flex>
           <Flex w='100%' maxW='1000px'>
             <WikiPage 
               startWiki={initialWikis.startWiki} 
@@ -108,7 +101,6 @@ export default function Home() {
           isOpen={successModalIsOpen} 
           onClose={successModalOnClose}
           history={history}  
-          startWiki={initialWikis.startWiki}
         />      
   
       </Box>

@@ -17,10 +17,9 @@ interface SuccessModalProps {
   isOpen: boolean;
   onClose(): void;
   history: WikiPage[];
-  startWiki: WikiPage;
 }
 
-export function SuccessModal({ isOpen, onClose, history, startWiki }: SuccessModalProps) {
+export function SuccessModal({ isOpen, onClose, history }: SuccessModalProps) {
   const [ shareMessage, setShareMessage ] = useState('Share');
   const [ buttonColor, setButtonColor ] = useState('green.400');
 
@@ -30,7 +29,7 @@ export function SuccessModal({ isOpen, onClose, history, startWiki }: SuccessMod
 
     const historyNames = history.map(historyBLock => historyBLock.cleanTitle)
 
-    const postMessage = startWiki.cleanTitle + ' - ' + historyNames.reduce( (acc, valor) => {
+    const postMessage = historyNames.reduce( (acc, valor) => {
       return acc + ' - ' + valor
     } )
 

@@ -1,8 +1,10 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { trim } from "jquery";
 import React, { useEffect, useState } from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { WikiPage } from "../pages";
 import { wikiApi } from "../services/api";
+import { HistoryWiki } from './HistoryWiki'
 
 
 interface WikiProps{
@@ -42,15 +44,9 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
     
   }
 
+  function handleReturnLink(wikiPage: WikiPage){
 
-  // ao voltar, chama a pagina anterior
-  function handleReturnPage() {
-
-    const lastPage = history[history.length - 2 ]
-
-    loadNewPage(lastPage.linkName, lastPage.cleanTitle)
-
-    
+    loadNewPage(wikiPage.linkName, wikiPage.cleanTitle)
   }
 
   // ao clicar num link, chama a nova pagina da wiki
@@ -64,8 +60,14 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
         .replaceAll('_', ' ')
         .replaceAll('#', ' - ')
     )
-    
-    if(pageCleanTitle === successWiki.cleanTitle){
+
+    const pageCleanTitleWithoutSpecifications = trim(pageCleanTitle.split('(')[0])
+
+    console.log('pageCleanTitle', pageCleanTitle)
+    console.log('successWiki', successWiki.cleanTitle)
+    console.log('pageCleanTitleWithoutSpecifications', pageCleanTitleWithoutSpecifications)
+
+    if(pageCleanTitleWithoutSpecifications === successWiki.cleanTitle){
       openSuccessModal()
     }
 
@@ -140,14 +142,14 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
   },[])
   
   return(
-    <Box>
-      
-      { history.length > 1  &&
-        <Button bg='gray.100' onClick={handleReturnPage}>
-          <BsArrowLeftShort  size='24px'/>
-          <Text>voltar pagina</Text>
-        </Button>
-      }
+    <Box overflow='hidden'>
+
+      <Flex maxW='860px' mt='5' >
+        <HistoryWiki 
+          history={history} 
+          handleReturnLink={handleReturnLink}
+        />      
+      </Flex>
       <Text fontSize='3xl' fontWeight='bold'>{wikiInfo.cleanTitle}</Text>
       <hr />
       { dom &&
