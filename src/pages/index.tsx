@@ -7,6 +7,7 @@ import { Header } from "../components/Header";
 import { HelpModal } from "../components/HelpModal";
 import { SuccessModal } from "../components/SuccessModal";
 import { api } from "../services/api";
+import { RankingModal } from "../components/RankingModal";
 
 export interface WikiPage {
   cleanTitle: string;
@@ -22,6 +23,7 @@ export default function Home() {
   const [ history, setHistory ] = useState<WikiPage[]>([])
   const { isOpen: helpModalIsOpen, onOpen: helpModalOnOpen, onClose: helpModalOnClose } = useDisclosure()
   const { isOpen: successModalIsOpen, onOpen: successModalOnOpen, onClose: successModalOnClose } = useDisclosure()
+  const { isOpen: rankingModalIsOpen, onOpen: rankingModalOnOpen, onClose: rankingModalOnClose } = useDisclosure()
   const [ initialWikis, setInitialWikis ] = useState<InitialWikis>( {} as InitialWikis)
 
   function handleSetHistory(newHistoryBlock: WikiPage){
@@ -72,7 +74,7 @@ export default function Home() {
     <Box>
     { initialWikis.startWiki &&      
       <Box>
-        <Header onOpen={helpModalOnOpen} objective={initialWikis.endWiki.cleanTitle}/>
+        <Header helpModalOnOpen={helpModalOnOpen} rankingModalOnOpen={rankingModalOnOpen} objective={initialWikis.endWiki.cleanTitle}/>
         
         <Flex
           w='100%'
@@ -101,6 +103,10 @@ export default function Home() {
           isOpen={successModalIsOpen} 
           onClose={successModalOnClose}
           history={history}  
+        />      
+        <RankingModal 
+          isOpen={rankingModalIsOpen} 
+          onClose={rankingModalOnClose}
         />      
   
       </Box>

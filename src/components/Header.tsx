@@ -3,11 +3,12 @@ import { Box, Button, Flex, Text } from "@chakra-ui/react"
 import { BsFillQuestionCircleFill, BsBarChartFill } from 'react-icons/bs'
 
 interface HeaderProps{
-  onOpen(): void
+  helpModalOnOpen(): void
+  rankingModalOnOpen(): void
   objective: string
 }
 
-export function Header({ onOpen, objective }: HeaderProps){
+export function Header({ helpModalOnOpen, rankingModalOnOpen, objective }: HeaderProps){
   return(
     <Flex
       position='sticky'
@@ -27,7 +28,7 @@ export function Header({ onOpen, objective }: HeaderProps){
       </Flex>
       <Flex w='300px' justify='end' gap='3'>
         <Button 
-          onClick={onOpen} 
+          onClick={rankingModalOnOpen} 
           bg='white'
           justifySelf='end' 
           // boxShadow='md' 
@@ -35,7 +36,7 @@ export function Header({ onOpen, objective }: HeaderProps){
           color='black'
         > <BsBarChartFill  size='20px'/>  </Button>
         <Button 
-          onClick={onOpen} 
+          onClick={helpModalOnOpen} 
           bg='black'
           justifySelf='end' 
           // boxShadow='md' 
