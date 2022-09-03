@@ -35,7 +35,7 @@ export default async ( request: NextApiRequest, response: NextApiResponse ) => {
       .then(res => res.data.items[0].title);
 
     const endTitle = await wikiApi
-      .get('page/title/'+encodeURI('orgânico'))
+      .get('page/title/'+data.end_wiki)
       .then(res => res.data.items[0].title);
 
 
