@@ -42,6 +42,9 @@ export function Header({ helpModalOnOpen, rankingModalOnOpen, objective }: Heade
           // boxShadow='md' 
           fontWeight='medium'
           color='white'
+          _hover={{
+            opacity: .5
+          }}
         > <BsFillQuestionCircleFill  size='20px'/> </Button>
       </Flex>
     </Flex>

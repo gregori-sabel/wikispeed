@@ -29,9 +29,15 @@ export function SuccessModal({ isOpen, onClose, history }: SuccessModalProps) {
 
     const historyNames = history.map(historyBLock => historyBLock.cleanTitle)
 
-    const postMessage = historyNames.reduce( (acc, valor) => {
-      return acc + ' - ' + valor
-    } )
+    const postMessage = `Cheguei em ${historyNames.length -1} cliques hoje: 🎉\n`  
+      + ' - '
+      + historyNames.reduce( (acc, valor) => {
+        return `${acc} \n - ${valor}`
+      } )
+      + '\n'
+      + '\n'
+      + '*Te ⚔desafio⚔ a chegar em menos cliques:*\n'  
+      + '---> *wikispeed.vercel.app* <---' 
 
     navigator.clipboard.writeText(postMessage)
   }
