@@ -10,6 +10,10 @@ interface DailyGame {
   }
 }
 
+function encodeTitle(title: string) {
+  return encodeURI(title)
+}
+
 export default async ( request: NextApiRequest, response: NextApiResponse ) => {
   // const { date } = request.query;
 
@@ -18,6 +22,7 @@ export default async ( request: NextApiRequest, response: NextApiResponse ) => {
     month: '2-digit',
     year: 'numeric'
   }).format(new Date());
+
   
   try{
     const { data }: DailyGame = await fauna.query(
@@ -31,11 +36,11 @@ export default async ( request: NextApiRequest, response: NextApiResponse ) => {
 
 
     const startTitle = await wikiApi
-      .get('page/title/'+data.start_wiki)
+      .get('page/title/'+encodeTitle(data.start_wiki))
       .then(res => res.data.items[0].title);
 
     const endTitle = await wikiApi
-      .get('page/title/'+data.end_wiki)
+      .get('page/title/'+encodeTitle(data.end_wiki))
       .then(res => res.data.items[0].title);
 
 
@@ -48,7 +53,7 @@ export default async ( request: NextApiRequest, response: NextApiResponse ) => {
     return response.json(initialWikis)
 
   } catch (err) {
-    console.log('erro:',err)
+    // console.log('erro:',err)
   }
 
   return response.json({erro: 'deu erro msm'})
