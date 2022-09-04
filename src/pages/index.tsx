@@ -45,6 +45,9 @@ export default function Home() {
     .then(res => {
       return res.data
     })
+    // console.log('startWiki',startWiki)
+    // console.log('endWiki', endWiki)
+    // const {startWiki, endWiki} = {startWiki: 'madeira', endWiki: 'faustao'}
 
 
     setHistory([{

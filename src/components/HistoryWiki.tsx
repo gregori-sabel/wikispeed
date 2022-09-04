@@ -32,7 +32,7 @@ export function HistoryWiki({ history, handleReturnLink }: HistoryProps){
               key={Block.cleanTitle}
               borderRadius={5}
               paddingX='15px'
-              ml={2}
+              // ml={2}
               // boxShadow='base'
               // bg='blue.100'
               color= 'blue.600'

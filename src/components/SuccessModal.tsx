@@ -36,7 +36,7 @@ export function SuccessModal({ isOpen, onClose, history }: SuccessModalProps) {
       } )
       + '\n'
       + '\n'
-      + '*Te ⚔desafio⚔ a chegar em menos cliques:*\n'  
+      + '*Te ⚔desafio⚔ a tentar:*\n'  
       + '---> *wikispeed.vercel.app* <---' 
 
     navigator.clipboard.writeText(postMessage)
