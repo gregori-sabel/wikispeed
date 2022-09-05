@@ -39,7 +39,10 @@ export function HelpModal({ isOpen, onClose, onOpen}: HelpModalProps) {
           </Text>
         </ModalBody>
 
-        <ModalFooter>
+        <ModalFooter justifyContent='space-between'>
+          <Text >
+            Feito por: <a href="https://www.linkedin.com/in/gregori-sabel/" target="_blank">Grégori Sabel</a>
+          </Text>
           <Button onClick={onClose} bg='blue.300'>
             Começar
           </Button>
