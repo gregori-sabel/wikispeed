@@ -103,6 +103,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
         if(tagA.href.includes(baseLocalURL) || tagA.href.includes(baseVercelURL)){
           tagA.onclick = (event) => {
             handleClickedLink(event, tagA.href)
+            return false
           } 
         } else {
             // aqui deveria tirar a possibilidade de clicar nesse link
