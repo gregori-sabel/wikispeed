@@ -24,6 +24,8 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
   const [ wikiInfo, setWikiInfo ] = useState<WikiInfo>({} as WikiInfo);
   const [ dom, setDom ] = useState<Document>();
   // const [ isMobile, setIsMobile ] = useState(false);
+  const baseLocalURL = 'http://localhost:3000/'
+  const baseVercelURL = 'https://wikispeed.vercel.app/'
   
   function loadNewPage(linkName: string, cleanTitle: string) {
     if ( window.innerWidth < 770 ){
@@ -39,11 +41,6 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
       })
     }
 
-    // wikiApi.get('/data/css/mobile/{type}')
-    // .then(res => {
-    //   setWikiInfo({ cleanTitle: cleanTitle, html: res.data})
-    // })
-
     window.scrollTo({
         top: 0
     });  
@@ -58,8 +55,8 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
   // ao clicar num link, chama a nova pagina da wiki
   function handleClickedLink(event, link: string) {
     const pageName = link
-      .replace('http://localhost:3000/', '')
-      .replace('https://wikispeed.vercel.app/', '')
+      .replace(baseLocalURL, '')
+      .replace(baseVercelURL, '')
       
     const pageCleanTitle = decodeURI(
       pageName
@@ -67,7 +64,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
         .replaceAll('#', ' - ')
     )
 
-    const pageCleanTitleWithoutSpecifications = trim(pageCleanTitle.split('(')[0])
+    const pageCleanTitleWithoutSpecifications = (pageCleanTitle.split('(')[0]).trim()
 
     if(pageCleanTitleWithoutSpecifications === successWiki.cleanTitle){
       openSuccessModal()
@@ -82,11 +79,11 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
   
   function removeUndesirableClasses(dom: Document){
 
-    const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 
-    'navbox', 'mw-ref', 'metadata', 'noprint']
+    const classesToRemove = ['.wikitable', '.mw-collapsible', '.reflist', '.refbegin', 
+    '.navbox', '.mw-ref', '.metadata', '.noprint', '.pcs-edit-section-title', '#Referências']
 
     classesToRemove.forEach((classe) => {
-      dom.querySelectorAll(`.${classe}`).forEach(box => {
+      dom.querySelectorAll(classe).forEach(box => {
         box.remove();
       });
     })
@@ -103,11 +100,19 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
       const tagsA = wikipediaElement.getElementsByTagName('a');
       var arrayTagsA = Array.from(tagsA);
       arrayTagsA.map(tagA => {
-        tagA.onclick = (event) => {
-          handleClickedLink(event, tagA.href)
+        if(tagA.href.includes(baseLocalURL) || tagA.href.includes(baseVercelURL)){
+          tagA.onclick = (event) => {
+            handleClickedLink(event, tagA.href)
+          } 
+        } else {
+            // aqui deveria tirar a possibilidade de clicar nesse link
+            tagA.removeAttribute('href')
+            tagA.style.setProperty('text-decoration', 'none')
+            tagA.style.setProperty('cursor', 'default')
+            tagA.style.setProperty('color', 'gray')
+          }
           return false // retorna false para não abrir o link
-        }
-      })
+        })
     }
   }
 
