@@ -28,7 +28,7 @@ export default function Home() {
 
   function handleSetHistory(newHistoryBlock: WikiPage){
     setHistory([...history, newHistoryBlock])
-    console.log(history)
+    // console.log(history)
   }
 
   function getCleanTitle(text: string){

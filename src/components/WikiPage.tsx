@@ -23,20 +23,26 @@ interface WikiInfo{
 export function WikiPage({ handleSetHistory, openSuccessModal, history, successWiki, startWiki }: WikiProps){
   const [ wikiInfo, setWikiInfo ] = useState<WikiInfo>({} as WikiInfo);
   const [ dom, setDom ] = useState<Document>();
-  const [ isMobile, setIsMobile ] = useState(true);
+  // const [ isMobile, setIsMobile ] = useState(false);
   
   function loadNewPage(linkName: string, cleanTitle: string) {
-    if ( isMobile ){
+    // if ( window.innerWidth < 770 ){
       wikiApi.get('page/mobile-html/' + linkName)
         .then(res => {
+          // console.log(res.data)
           setWikiInfo({cleanTitle: cleanTitle, html: res.data})      
         })
-    } else {
-      wikiApi.get('page/html/' + linkName)
-      .then(res => {
-        setWikiInfo({ cleanTitle: cleanTitle, html: res.data})
-      })
-    }
+    // } else {
+      // wikiApi.get('page/html/' + linkName)
+      // .then(res => {
+      //   setWikiInfo({ cleanTitle: cleanTitle, html: res.data})
+      // })
+    // }
+
+    // wikiApi.get('/data/css/mobile/{type}')
+    // .then(res => {
+    //   setWikiInfo({ cleanTitle: cleanTitle, html: res.data})
+    // })
 
     window.scrollTo({
         top: 0
@@ -63,10 +69,6 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
 
     const pageCleanTitleWithoutSpecifications = trim(pageCleanTitle.split('(')[0])
 
-    console.log('pageCleanTitle', pageCleanTitle)
-    console.log('successWiki', successWiki.cleanTitle)
-    console.log('pageCleanTitleWithoutSpecifications', pageCleanTitleWithoutSpecifications)
-
     if(pageCleanTitleWithoutSpecifications === successWiki.cleanTitle){
       openSuccessModal()
     }
@@ -78,8 +80,12 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
   }
 
   
-  function removeEachClass(dom: Document, classes: string[]){
-    classes.forEach((classe) => {
+  function removeUndesirableClasses(dom: Document){
+
+    const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 
+    'navbox', 'mw-ref', 'metadata', 'noprint']
+
+    classesToRemove.forEach((classe) => {
       dom.querySelectorAll(`.${classe}`).forEach(box => {
         box.remove();
       });
@@ -104,15 +110,23 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
       })
     }
   }
-  
+
+  // chama a pagina da wiki
+  useEffect(() => {     
+    loadNewPage(startWiki.cleanTitle, startWiki.cleanTitle)
+  },[])
+    
   // atualiza dom que vai preencher a tela
   useEffect(() => {   
-    const newDom = new DOMParser().parseFromString(wikiInfo.html, 'text/html')
-    const classesToRemove = ['wikitable', 'mw-collapsible', 'reflist', 'refbegin', 
-                             'navbox', 'mw-ref', 'metadata', 'noprint']
-    removeEachClass(newDom, classesToRemove)
+    if(wikiInfo.html) {
 
-    setDom(newDom) 
+      const newDom = new DOMParser().parseFromString(wikiInfo.html, 'text/html')
+
+      removeUndesirableClasses(newDom)
+  
+      setDom(newDom)
+  
+    }
 
   },[wikiInfo])
 
@@ -121,26 +135,7 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
     alterLinks()
   },[dom])
   
-  // chama a pagina da wiki
-  useEffect(() => { 
-    setIsMobile(window.innerWidth < 770)
-    
-    if (window.innerWidth < 770) {
-      wikiApi.get('page/mobile-html/' + startWiki.cleanTitle)
-        .then(res => {
-          // console.log(res.data.lead.sections)
-          setWikiInfo({cleanTitle: startWiki.cleanTitle, html: res.data})      
-        })
-    } else {
-      wikiApi.get('page/html/' + startWiki.cleanTitle)
-      .then(res => {
-        setWikiInfo({cleanTitle: startWiki.cleanTitle, html: res.data})      
-      })
-    }
 
-
-  },[])
-  
   return(
     <Box overflow='hidden'>
 
