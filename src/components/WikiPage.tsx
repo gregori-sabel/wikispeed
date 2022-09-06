@@ -26,18 +26,18 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
   // const [ isMobile, setIsMobile ] = useState(false);
   
   function loadNewPage(linkName: string, cleanTitle: string) {
-    // if ( window.innerWidth < 770 ){
+    if ( window.innerWidth < 770 ){
       wikiApi.get('page/mobile-html/' + linkName)
         .then(res => {
           // console.log(res.data)
           setWikiInfo({cleanTitle: cleanTitle, html: res.data})      
         })
-    // } else {
-      // wikiApi.get('page/html/' + linkName)
-      // .then(res => {
-      //   setWikiInfo({ cleanTitle: cleanTitle, html: res.data})
-      // })
-    // }
+    } else {
+      wikiApi.get('page/html/' + linkName)
+      .then(res => {
+        setWikiInfo({ cleanTitle: cleanTitle, html: res.data})
+      })
+    }
 
     // wikiApi.get('/data/css/mobile/{type}')
     // .then(res => {
@@ -145,7 +145,9 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
           handleReturnLink={handleReturnLink}
         />      
       </Flex>
-      <Text fontSize='3xl' fontWeight='bold'>{wikiInfo.cleanTitle}</Text>
+      { window.innerWidth > 770 &&
+        <Text fontSize='3xl' fontWeight='bold'>{wikiInfo.cleanTitle}</Text>
+      }
       <hr />
       { dom &&
         <div className='wikipedia' dangerouslySetInnerHTML={{__html: dom.documentElement?.outerHTML}}/>   
