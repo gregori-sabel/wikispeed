@@ -151,9 +151,9 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
           handleReturnLink={handleReturnLink}
         />      
       </Flex>
-      { window.innerWidth > 770 &&
+      {/* { window.innerWidth > 770 && */}
         <Text fontSize='3xl' fontWeight='bold'>{wikiInfo.cleanTitle}</Text>
-      }
+      {/* } */}
       <hr />
       { dom &&
         <div className='wikipedia' dangerouslySetInnerHTML={{__html: dom.documentElement?.outerHTML}}/>   
