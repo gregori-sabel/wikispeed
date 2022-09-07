@@ -77,15 +77,24 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
   
   function removeUndesirableClasses(dom: Document){
 
-    const classesToRemove = ['.wikitable', '.mw-collapsible', '.reflist', '.refbegin', 
-    '.navbox', '.mw-ref', '.metadata', '.noprint', '#Referências', 
-    '.pcs-edit-section-title', '.pcs-edit-section-header', '.pcs-edit-section-link-container']
+    try{
+      const classesToRemove = ['.wikitable', '.mw-collapsible', '.reflist', '.refbegin', 
+      '.navbox', '.mw-ref', '.metadata', '.noprint', '#Referências', 
+      '.pcs-edit-section-title', '.pcs-edit-section-header', '.pcs-edit-section-link-container']
+  
+      classesToRemove.forEach((classe) => {
+        dom.querySelectorAll(classe).forEach(box => {
+          box.remove();
+        });
+      })
+  
+      dom.querySelector('.hatnote').getElementsByTagName('img')[0].remove()
+      dom.querySelector('.hatnote').getElementsByTagName('img')[0].remove()
 
-    classesToRemove.forEach((classe) => {
-      dom.querySelectorAll(classe).forEach(box => {
-        box.remove();
-      });
-    })
+    } catch (err) {
+      console.log(err)
+    }
+
   }
   
   // altera todos os links da wiki
