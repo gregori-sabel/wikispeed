@@ -100,19 +100,21 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
       const tagsA = wikipediaElement.getElementsByTagName('a');
       var arrayTagsA = Array.from(tagsA);
       arrayTagsA.map(tagA => {
-        if(tagA.href.includes(baseLocalURL) || tagA.href.includes(baseVercelURL)){
+        if(
+          tagA.className == 'new' || !(tagA.href.includes(baseLocalURL) || tagA.href.includes(baseVercelURL))
+        ){        
+          // aqui deveria tirar a possibilidade de clicar nesse link
+          tagA.removeAttribute('href')
+          tagA.style.setProperty('text-decoration', 'none')
+          tagA.style.setProperty('cursor', 'default')
+          tagA.style.setProperty('color', 'gray')
+        } else {
           tagA.onclick = (event) => {
             handleClickedLink(event, tagA.href)
             return false
           } 
-        } else {
-            // aqui deveria tirar a possibilidade de clicar nesse link
-            tagA.removeAttribute('href')
-            tagA.style.setProperty('text-decoration', 'none')
-            tagA.style.setProperty('cursor', 'default')
-            tagA.style.setProperty('color', 'gray')
-          }
-          return false // retorna false para não abrir o link
+        }
+        return false // retorna false para não abrir o link
         })
     }
   }
