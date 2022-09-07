@@ -19,33 +19,36 @@ export function Header({ helpModalOnOpen, rankingModalOnOpen, objective }: Heade
       px='5'
       align='center'
       justify='space-between'
+      fontSize={['sm', 'md']}
     >
-      <Flex w='300px' justify='start'>
-      <strong>Objetivo do dia: <Text display='inline' color='red' >{objective}</Text></strong>
+      <Flex w='300px' justify='start' fontSize={['sm', 'md']} flexWrap='wrap-reverse'>
+        <strong>Objetivo: <Text color='red'>{objective}</Text></strong>
       </Flex>
       <Flex w='300px' justify='center'>
-        <Text fontWeight='bold' fontSize='xl' m='0' p='0' justifySelf='center'>WikiSpeed</Text>
+        <Text fontWeight='bold' fontSize={['md','xl']} m='0' p='0' justifySelf='center'>WikiSpeed</Text>
       </Flex>
       <Flex w='300px' justify='end' gap='3'>
         <Button 
           onClick={rankingModalOnOpen} 
           bg='white'
           justifySelf='end' 
-          // boxShadow='md' 
           fontWeight='medium'
           color='black'
-        > <BsBarChartFill  size='20px'/>  </Button>
+          size={['sm','md']}
+          fontSize={['15px','20px']}
+        > <BsBarChartFill />  </Button>
         <Button 
           onClick={helpModalOnOpen} 
           bg='black'
           justifySelf='end' 
-          // boxShadow='md' 
           fontWeight='medium'
           color='white'
           _hover={{
             opacity: .5
           }}
-        > <BsFillQuestionCircleFill  size='20px'/> </Button>
+          size={['sm','md']}
+          fontSize={['15px','20px']}
+        > <BsFillQuestionCircleFill /> </Button>
       </Flex>
     </Flex>
 
