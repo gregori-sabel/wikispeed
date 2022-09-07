@@ -31,14 +31,12 @@ export function HistoryWiki({ history, handleReturnLink }: HistoryProps){
               onClick={() => handleReturnLink(Block)}
               key={Block.cleanTitle}
               borderRadius={5}
-              paddingX='15px'
-              // ml={2}
-              // boxShadow='base'
-              // bg='blue.100'
+              paddingX={['7px', '15px']}
+              paddingY={['4px', '0px']}
               color= 'blue.600'
               fontWeight='normal'
               _hover={{            
-                boxShadow:'inner',
+                bg:'gray.100',
                 cursor:'pointer'
               }}
             >

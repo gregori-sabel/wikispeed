@@ -1,7 +1,6 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
-import { trim } from "jquery";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { BsArrowLeftShort } from "react-icons/bs";
+import { BsClockHistory } from "react-icons/bs";
 import { WikiPage } from "../pages";
 import { wikiApi } from "../services/api";
 import { HistoryWiki } from './HistoryWiki'
@@ -147,16 +146,18 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
   return(
     <Box overflow='hidden'>
 
-      <Flex maxW='860px' mt='5' >
+      <Flex maxW='860px' mt='5' mb='4' align='center' gap='10px'>
+        <BsClockHistory />
         <HistoryWiki 
           history={history} 
           handleReturnLink={handleReturnLink}
         />      
       </Flex>
+      <hr />
       {/* { window.innerWidth > 770 && */}
         <Text fontSize='3xl' fontWeight='bold'>{wikiInfo.cleanTitle}</Text>
       {/* } */}
-      <hr />
+      {/* <hr /> */}
       { dom &&
         <div className='wikipedia' dangerouslySetInnerHTML={{__html: dom.documentElement?.outerHTML}}/>   
       }
