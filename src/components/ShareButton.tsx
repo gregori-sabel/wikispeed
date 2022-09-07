@@ -11,11 +11,11 @@ interface Props {
 
 export function ShareButton({ text, history, secret = false}:Props) {
   const [ shareMessage, setShareMessage ] = useState(text);
-  const [ buttonColor, setButtonColor ] = useState(secret ? 'green.400' : 'green.400');
+  const [ buttonColor, setButtonColor ] = useState('green.400');
 
   function handleShareResults(){
     setShareMessage('Copied!')
-    setButtonColor('green.400')
+    setButtonColor('gray.100')
 
     const historyNames = history.map(historyBLock => historyBLock.cleanTitle)
 
