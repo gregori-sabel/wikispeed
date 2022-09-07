@@ -23,7 +23,6 @@ interface WikiInfo{
 export function WikiPage({ handleSetHistory, openSuccessModal, history, successWiki, startWiki }: WikiProps){
   const [ wikiInfo, setWikiInfo ] = useState<WikiInfo>({} as WikiInfo);
   const [ dom, setDom ] = useState<Document>();
-  // const [ isMobile, setIsMobile ] = useState(false);
   const baseLocalURL = 'http://localhost:3000/'
   const baseVercelURL = 'https://wikispeed.vercel.app/'
   
@@ -80,7 +79,8 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
   function removeUndesirableClasses(dom: Document){
 
     const classesToRemove = ['.wikitable', '.mw-collapsible', '.reflist', '.refbegin', 
-    '.navbox', '.mw-ref', '.metadata', '.noprint', '.pcs-edit-section-title', '#Referências']
+    '.navbox', '.mw-ref', '.metadata', '.noprint', '#Referências', 
+    '.pcs-edit-section-title', '.pcs-edit-section-header']
 
     classesToRemove.forEach((classe) => {
       dom.querySelectorAll(classe).forEach(box => {

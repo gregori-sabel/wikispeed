@@ -12,6 +12,7 @@ import {
   Flex
 } from "@chakra-ui/react";
 import { WikiPage } from "../pages";
+import { ShareButton } from "./ShareButton";
 
 interface SuccessModalProps {
   isOpen: boolean;
@@ -20,27 +21,7 @@ interface SuccessModalProps {
 }
 
 export function SuccessModal({ isOpen, onClose, history }: SuccessModalProps) {
-  const [ shareMessage, setShareMessage ] = useState('Share');
-  const [ buttonColor, setButtonColor ] = useState('green.400');
 
-  function handleShareResults(){
-    setShareMessage('Copied!')
-    setButtonColor('gray.100')
-
-    const historyNames = history.map(historyBLock => historyBLock.cleanTitle)
-
-    const postMessage = `Cheguei em ${historyNames.length -1} cliques hoje: 🎉\n`  
-      + ' - '
-      + historyNames.reduce( (acc, valor) => {
-        return `${acc} \n - ${valor}`
-      } )
-      + '\n'
-      + '\n'
-      + '*Te ⚔desafio⚔ a tentar:*\n'  
-      + '---> *wikispeed.vercel.app* <---' 
-
-    navigator.clipboard.writeText(postMessage)
-  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size='xl'>
@@ -58,18 +39,9 @@ export function SuccessModal({ isOpen, onClose, history }: SuccessModalProps) {
             amigos tentarem vencer seu record
           </Text>
           <br />
-          <Flex >
-            <Button 
-              bg={buttonColor}
-              onClick={handleShareResults}
-              _hover={{
-                opacity: '0.7'
-              }}
-            >
-              <Text color='black' fontWeight='medium'>
-                {shareMessage}
-              </Text>
-            </Button>
+          <Flex flexDir='column' gap='20px' marginY='20px'>
+            <ShareButton text='Compartilhar histórico' history={history} />
+            <ShareButton text='Compartilhar sem revelar' history={history} secret />
           </Flex>
           <br />
           <Text fontWeight='medium'>
