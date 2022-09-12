@@ -8,6 +8,8 @@ import { HelpModal } from "../components/HelpModal";
 import { SuccessModal } from "../components/SuccessModal";
 import { api } from "../services/api";
 import { RankingModal } from "../components/RankingModal";
+import { LoginModal } from "../components/LoginModal";
+import cookie from 'js-cookie'
 
 export interface WikiPage {
   cleanTitle: string;
@@ -21,9 +23,11 @@ interface InitialWikis{
 
 export default function Home() {
   const [ history, setHistory ] = useState<WikiPage[]>([])
+  const [ userName, setUserName] = useState('')
   const { isOpen: helpModalIsOpen, onOpen: helpModalOnOpen, onClose: helpModalOnClose } = useDisclosure()
   const { isOpen: successModalIsOpen, onOpen: successModalOnOpen, onClose: successModalOnClose } = useDisclosure()
   const { isOpen: rankingModalIsOpen, onOpen: rankingModalOnOpen, onClose: rankingModalOnClose } = useDisclosure()
+  const { isOpen: loginModalIsOpen, onOpen: loginModalOnOpen, onClose: loginModalOnClose } = useDisclosure()
   const [ initialWikis, setInitialWikis ] = useState<InitialWikis>( {} as InitialWikis)
 
   function handleSetHistory(newHistoryBlock: WikiPage){
@@ -48,7 +52,6 @@ export default function Home() {
     
     // const {startWiki, endWiki} = {startWiki: 'Monte Gerizim', endWiki: 'faustao'}
 
-
     setHistory([{
       cleanTitle: getCleanTitle(startWiki), 
       linkName: startWiki
@@ -63,12 +66,27 @@ export default function Home() {
         cleanTitle: getCleanTitle(endWiki), 
         linkName: startWiki
       },     
-    })
-    
+    })    
+  }
+
+  function handleSetUserName(name: string) {
+    setUserName(name)
+    console.log(userName)
+  }
+
+  function getLoginName(){
+    const name = cookie.get('userName')
+    if(name){
+      setUserName(name)
+    } else {
+      loginModalOnOpen()
+    }
+
   }
 
   useEffect(() => {
     getDBWords()
+    getLoginName()
     helpModalOnOpen()
   },[])
 
@@ -96,10 +114,16 @@ export default function Home() {
           </Flex>
         </Flex>
         
+
         <HelpModal 
           isOpen={helpModalIsOpen} 
-          onOpen={helpModalOnOpen}  
-          onClose={helpModalOnClose}  
+          onClose={helpModalOnClose} 
+        />
+        <LoginModal 
+          isOpen={loginModalIsOpen} 
+          onClose={loginModalOnClose}  
+          handleSetUserName={handleSetUserName} 
+          userName={userName}
         />
         <SuccessModal 
           isOpen={successModalIsOpen} 

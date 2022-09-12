@@ -3,11 +3,10 @@ import { Text, Modal, useDisclosure, ModalOverlay, ModalContent, ModalBody, Moda
 
 interface HelpModalProps{
   isOpen: boolean;
-  onOpen(): void;
   onClose(): void;
 }
 
-export function HelpModal({ isOpen, onClose, onOpen}: HelpModalProps) {
+export function HelpModal({ isOpen, onClose}: HelpModalProps) {
   return(
     <Modal isOpen={isOpen} onClose={onClose} size='xl' >
       <ModalOverlay           
@@ -18,19 +17,13 @@ export function HelpModal({ isOpen, onClose, onOpen}: HelpModalProps) {
       <ModalContent bg='white'>
         <ModalHeader>Como Jogar</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
-          {/* <Text lineHeight='1'>
-            Sabe como a <strong>wikipedia</strong> é cheia de 
-            <Text color='blue.700' display='inline-block'>&nbsp;links&nbsp;</Text> 
-            no meio do texto?
-          </Text> */}
+        <ModalBody paddingY='40px'>
           <Text >
             O objetivo é&nbsp;
-            <strong>sair de uma página da wikipedia </strong>
-            aleatória e&nbsp;
-            <strong>chegar em uma outra página </strong>
-            apenas&nbsp;
-            <strong>clicando nos </strong>
+            <strong>sair de uma página </strong>
+            da wikipedia e&nbsp;
+            <strong>chegar em outra página </strong>
+            <strong>através dos </strong>
             <a>links</a>.
           </Text>
           <br />
@@ -41,7 +34,7 @@ export function HelpModal({ isOpen, onClose, onOpen}: HelpModalProps) {
 
         <ModalFooter justifyContent='space-between'>
           <Text >
-            Feito por: <a href="https://www.linkedin.com/in/gregori-sabel/" target="_blank">Grégori Sabel</a>
+            By: <a href="https://www.linkedin.com/in/gregori-sabel/" target="_blank">Grégori Sabel</a>
           </Text>
           <Button onClick={onClose} bg='blue.300'>
             Começar
