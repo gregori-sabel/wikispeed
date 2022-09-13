@@ -56,7 +56,7 @@ export default async ( request: NextApiRequest, response: NextApiResponse<Rankin
 
   }
 
-  return response.status(500).send();
+  return response.status(500);
 
 
 }
