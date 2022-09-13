@@ -30,8 +30,10 @@ export function RankingModal({ isOpen, onClose }: SuccessModalProps) {
   
   async function getRanking(){
     const { data }  = await api.get('api/ranking')
-
-    setRanking(data)
+    console.log('essa data', data)
+    if(data[0]){
+      setRanking(data)
+    }
   }
 
 

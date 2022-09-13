@@ -8,6 +8,7 @@ interface QueryData {
       user_id: string;
       user_name: string;
       historic: string[];
+      date: string;
     }
   }[]
 }
@@ -36,7 +37,11 @@ export default async ( request: NextApiRequest, response: NextApiResponse<Rankin
       )
     )
 
-    const responseData = data.map(hist => {
+    const filteredData = data.filter(hist => {
+      return hist.data.date === date
+    })
+
+    const responseData = filteredData.map(hist => {      
       return {
         userId: hist.data.user_id,
         userName: hist.data.user_name,

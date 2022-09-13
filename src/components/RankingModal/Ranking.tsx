@@ -15,20 +15,23 @@ export function Ranking({ ranking }: RankingData) {
   const userId = Cookie.get('user-id')
 
   const formattedRanking = ranking.map( rank => {
-    console.log('replace', rank.userName)
-
-    const cleanUserName = rank.userName.replace(/^./, rank.userName[0].toUpperCase())
-
-    return {
-      userId: rank.userId,
-      userName: cleanUserName,
-      historic: rank.historic
+    if(rank?.userName){
+      console.log('replace', rank?.userName)
+  
+      const cleanUserName = rank?.userName.replace(/^./, rank.userName[0].toUpperCase())
+  
+      return {
+        userId: rank.userId,
+        userName: cleanUserName,
+        historic: rank.historic
+      }
     }
   })
+  console.log(formattedRanking)
 
-    const sortedRanking = formattedRanking.sort((a,b) => {
-      return a.historic.length - b.historic.length
-    })    
+  const sortedRanking = formattedRanking.sort((a,b) => {
+    return a.historic.length - b.historic.length
+  })    
 
   return(
     <Box 
