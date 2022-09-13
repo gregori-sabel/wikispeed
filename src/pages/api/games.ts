@@ -82,7 +82,7 @@ export default async ( request: NextApiRequest, response: NextApiResponse ) => {
 
       duos.shift()
 
-      fs.writeFile('./duos.json', JSON.stringify(duos, null, 2), 'utf-8', (error, result) => {
+      fs.writeFile('./duos.json', JSON.stringify(duos, null, 2), 'utf-8', (error) => {
         if(error){
           console.log(error)
           return;
