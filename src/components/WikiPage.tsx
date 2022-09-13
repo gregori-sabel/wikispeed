@@ -2,8 +2,9 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { BsClockHistory } from "react-icons/bs";
 import { WikiPage } from "../pages";
-import { wikiApi } from "../services/api";
+import { api, wikiApi } from "../services/api";
 import { HistoryWiki } from './HistoryWiki'
+import cookie from 'js-cookie'
 
 
 interface WikiProps{
@@ -25,6 +26,20 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
   const baseLocalURL = 'http://localhost:3000/'
   const baseVercelURL = 'https://wikispeed.vercel.app/'
   
+  async function winGame() {
+
+    const userName = cookie.get('user-name')
+    const userId = cookie.get('user-id')
+    
+    await api.post('api/saveHistoric', {
+      historic: history,
+      userName,
+      userId
+    })
+
+    openSuccessModal()
+  }
+
   function loadNewPage(linkName: string, cleanTitle: string) {
     if ( window.innerWidth < 770 ){
       wikiApi.get('page/mobile-html/' + linkName)
@@ -64,14 +79,14 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
 
     const pageCleanTitleWithoutSpecifications = (pageCleanTitle.split('(')[0]).trim()
 
+    handleSetHistory({linkName: pageName, cleanTitle: pageCleanTitle})
+    
     if(pageCleanTitleWithoutSpecifications === successWiki.cleanTitle){
-      openSuccessModal()
+      winGame()
     }
-
 
     loadNewPage(pageName, pageCleanTitle)
 
-    handleSetHistory({linkName: pageName, cleanTitle: pageCleanTitle})
   }
 
   

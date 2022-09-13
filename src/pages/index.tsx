@@ -71,11 +71,10 @@ export default function Home() {
 
   function handleSetUserName(name: string) {
     setUserName(name)
-    console.log(userName)
   }
 
   function getLoginName(){
-    const name = cookie.get('userName')
+    const name = cookie.get('user-name')
     if(name){
       setUserName(name)
     } else {
@@ -88,13 +87,21 @@ export default function Home() {
     getDBWords()
     getLoginName()
     helpModalOnOpen()
+
+    window.onbeforeunload = function() {
+      return "Tem certeza que quer sair? vai perder teu progresso!";
+    }      
   },[])
 
   return (
     <Box>
     { initialWikis.startWiki &&      
       <Box>
-        <Header helpModalOnOpen={helpModalOnOpen} rankingModalOnOpen={rankingModalOnOpen} objective={initialWikis.endWiki.cleanTitle}/>
+        <Header 
+          objective={initialWikis.endWiki.cleanTitle}
+          rankingModalOnOpen={rankingModalOnOpen} 
+          helpModalOnOpen={helpModalOnOpen} 
+        />
         
         <Flex
           w='100%'

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { 
   Text, 
   Modal, 
@@ -11,13 +11,38 @@ import {
   Button, 
   Flex
 } from "@chakra-ui/react";
+import { api } from "../../services/api";
+import { Ranking } from "./Ranking";
 
 interface SuccessModalProps {
   isOpen: boolean;
   onClose(): void;
 }
 
+interface RankingData {
+  userId: string;
+  userName: string;
+  historic: string[]
+}
+
 export function RankingModal({ isOpen, onClose }: SuccessModalProps) {
+  const [ ranking, setRanking ] = useState<RankingData[]>([])
+  
+  async function getRanking(){
+    const { data }  = await api.get('api/ranking')
+
+    setRanking(data)
+  }
+
+
+  useEffect(() => {
+    console.log('isOpen', isOpen)
+    if(isOpen){
+      getRanking()
+      // console.log(ranking.length)
+    }
+  }, [isOpen])
+
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size='xl'>
@@ -27,12 +52,13 @@ export function RankingModal({ isOpen, onClose }: SuccessModalProps) {
         backdropBlur='4px'
       />
       <ModalContent bg='white'>
-        <ModalHeader>Ranking</ModalHeader>
+        <ModalHeader>Ranking do dia</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Text>
-            Funcionalidade em construção!
-          </Text>
+          <Text>Funcionalidade em testes 👷‍♀️🚧👷‍♂️</Text>
+          
+          <Ranking ranking={ranking}/>
+
         </ModalBody>
 
         <ModalFooter>
