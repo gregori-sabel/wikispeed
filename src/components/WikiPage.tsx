@@ -4,7 +4,7 @@ import { BsClockHistory } from "react-icons/bs";
 import { WikiPage } from "../pages";
 import { api, wikiApi } from "../services/api";
 import { HistoryWiki } from './HistoryWiki'
-import cookie from 'js-cookie'
+import Cookies from 'js-cookie'
 
 
 interface WikiProps{
@@ -28,8 +28,8 @@ export function WikiPage({ handleSetHistory, openSuccessModal, history, successW
   
   async function winGame() {
 
-    const userName = cookie.get('user-name')
-    const userId = cookie.get('user-id')
+    const userName = Cookies.get('user-name')
+    const userId = Cookies.get('user-id')
     
     await api.post('api/saveHistoric', {
       historic: history,

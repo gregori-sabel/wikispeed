@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Text, Modal, useDisclosure, ModalOverlay, ModalContent, ModalBody, ModalHeader, ModalCloseButton, ModalFooter, Button, Input, FormControl, FormLabel, FormHelperText } from "@chakra-ui/react";
+import Cookies from 'js-cookie'
 import cookie from 'js-cookie'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -15,8 +16,8 @@ export function LoginModal({ isOpen, onClose, handleSetUserName, userName}: Help
 
   function handleInformName(){
     if(userName?.length >= 4){
-      cookie.set('user-name', userName, { expires: 3000})
-      cookie.set('user-id', uuidv4(), { expires: 3000})
+      Cookies.set('user-name', userName, { expires: 3000})
+      Cookies.set('user-id', uuidv4(), { expires: 3000})
       onClose()
     } else {
       setErrorMessage('Deve conter pelo menos 4 caracteres')

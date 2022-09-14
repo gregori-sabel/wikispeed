@@ -9,7 +9,7 @@ import { SuccessModal } from "../components/SuccessModal";
 import { api } from "../services/api";
 import { RankingModal } from "../components/RankingModal";
 import { LoginModal } from "../components/LoginModal";
-import cookie from 'js-cookie'
+import Cookies from 'js-cookie'
 
 export interface WikiPage {
   cleanTitle: string;
@@ -74,7 +74,7 @@ export default function Home() {
   }
 
   function getLoginName(){
-    const name = cookie.get('user-name')
+    const name = Cookies.get('user-name')
     if(name){
       setUserName(name)
     } else {

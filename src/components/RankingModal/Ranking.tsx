@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
-import Cookie from 'js-cookie';
+import Cookies from 'js-cookie';
 import React from 'react'
 
 interface RankingData {
@@ -12,7 +12,7 @@ interface RankingData {
 
 export function Ranking({ ranking }: RankingData) {
 
-  const userId = Cookie.get('user-id')
+  const userId = Cookies.get('user-id')
 
   const formattedRanking = ranking.map( rank => {
     if(rank?.userName){
