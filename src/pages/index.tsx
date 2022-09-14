@@ -84,13 +84,14 @@ export default function Home() {
   }
 
   useEffect(() => {
+    
+    window.onbeforeunload = function() {
+      return "";
+    }      
+
     getDBWords()
     getLoginName()
     helpModalOnOpen()
-
-    window.onbeforeunload = function() {
-      return "Tem certeza que quer sair? vai perder teu progresso!";
-    }      
   },[])
 
   return (
