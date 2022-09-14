@@ -15,8 +15,8 @@ export function LoginModal({ isOpen, onClose, handleSetUserName, userName}: Help
 
   function handleInformName(){
     if(userName?.length >= 4){
-      cookie.set('user-name', userName)
-      cookie.set('user-id', uuidv4())
+      cookie.set('user-name', userName, { expires: 3000})
+      cookie.set('user-id', uuidv4(), { expires: 3000})
       onClose()
     } else {
       setErrorMessage('Deve conter pelo menos 4 caracteres')
