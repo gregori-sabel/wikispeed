@@ -25,7 +25,7 @@ export function LoginModal({ isOpen, onClose, handleSetUserName, userName}: Help
   }
   
   return(
-    <Modal isOpen={isOpen} onClose={onClose} size='xl' >
+    <Modal isOpen={isOpen} onClose={() => {}} size='xl' >
       <ModalOverlay           
         bg='blackAlpha.600'
         backdropFilter='auto'
@@ -33,7 +33,6 @@ export function LoginModal({ isOpen, onClose, handleSetUserName, userName}: Help
       />
       <ModalContent bg='white'>
         <ModalHeader>Informe</ModalHeader>
-        <ModalCloseButton />
         <ModalBody>
           <FormControl>
             <FormLabel>Nome</FormLabel>

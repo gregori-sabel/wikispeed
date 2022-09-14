@@ -14,7 +14,6 @@ import { query as q} from 'faunadb'
 
 export default async ( request: NextApiRequest, response: NextApiResponse ) => {
   const { historic, userName, userId } = request.body
-  console.log(historic)
 
   const date = Intl.DateTimeFormat('pt-BR',{
     day: '2-digit',
@@ -62,7 +61,6 @@ export default async ( request: NextApiRequest, response: NextApiResponse ) => {
       const cleanHistoric = historic.map(hist => {
         return hist.cleanTitle;
       })
-      console.log(cleanHistoric)
     
     
       await fauna.query(

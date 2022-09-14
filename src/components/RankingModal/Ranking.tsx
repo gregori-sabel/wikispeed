@@ -16,7 +16,6 @@ export function Ranking({ ranking }: RankingData) {
 
   const formattedRanking = ranking.map( rank => {
     if(rank?.userName){
-      console.log('replace', rank?.userName)
   
       const cleanUserName = rank?.userName.replace(/^./, rank.userName[0].toUpperCase())
   
@@ -27,7 +26,6 @@ export function Ranking({ ranking }: RankingData) {
       }
     }
   })
-  console.log(formattedRanking)
 
   const sortedRanking = formattedRanking.sort((a,b) => {
     return a.historic.length - b.historic.length
@@ -43,6 +41,10 @@ export function Ranking({ ranking }: RankingData) {
       borderRadius='10px' 
       scrollSnapStop='initial'
     >
+      { !(sortedRanking.length > 0) && 
+        <Text>carregando... ou não tem nenhum ainda</Text>
+      }
+
       { sortedRanking.length > 0 && 
         sortedRanking.map(user => (
           <Flex 

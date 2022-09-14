@@ -30,7 +30,6 @@ export function RankingModal({ isOpen, onClose }: SuccessModalProps) {
   
   async function getRanking(){
     const { data }  = await api.get('api/ranking')
-    console.log('essa data', data)
     if(data[0]){
       setRanking(data)
     }
@@ -38,7 +37,6 @@ export function RankingModal({ isOpen, onClose }: SuccessModalProps) {
 
 
   useEffect(() => {
-    console.log('isOpen', isOpen)
     if(isOpen){
       getRanking()
       // console.log(ranking.length)
