@@ -19,7 +19,6 @@ interface RankingData {
 }
 
 export default async ( request: NextApiRequest, response: NextApiResponse<RankingData[]> ) => {
-  const { historic, userName, userId } = request.body
 
   const date = Intl.DateTimeFormat('pt-BR',{
     day: '2-digit',
@@ -32,7 +31,7 @@ export default async ( request: NextApiRequest, response: NextApiResponse<Rankin
 
     const { data } = await fauna.query<QueryData>(
       q.Map(
-        q.Paginate(q.Match(q.Index("all_historics"))),
+        q.Paginate(q.Match(q.Index("historic_by_date"), q.Casefold(date))),
         q.Lambda('historicRef', q.Get(q.Var('historicRef')))
       )
     )
