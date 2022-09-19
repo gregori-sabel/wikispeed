@@ -4,4 +4,4 @@ Tipo um filho do [Wordle](https://worldle.teuteuf.fr/) com a [Wikipedia](https:/
 
 [Wikispeed](http://wikispeed.vercel.app/) é um jogo diário em que você precisa se locomover pela wikipedia apenas clicando nos links.
 
-Desafie seus amigos compartilhando seu resultado com 2 cliques.
+Desafie seus amigos compartilhando seu resultado com 2 cliques, ou veja seu resultado no ranking geral.
